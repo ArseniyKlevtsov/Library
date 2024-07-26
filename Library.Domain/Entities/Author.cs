@@ -10,6 +10,6 @@ public class Author : IEntity
     public DateOnly BirthDate { get; set; }
     public string? Country { get; set; }
 
-    public ICollection<Book>? Boocks { get; set; }
+    public ICollection<Book>? Books { get; set; }
 
 }

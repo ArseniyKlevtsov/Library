@@ -26,6 +26,10 @@ internal class BookConfiguration : IEntityTypeConfiguration<Book>
             .IsRequired();
 
         builder
+            .Property(book => book.Image)
+            .HasColumnType("image");
+
+        builder
             .HasOne(book => book.Inventory)
             .WithOne(inventory => inventory.Book)
             .HasForeignKey<LibraryInventory>(inventory => inventory.BookId)
@@ -38,7 +42,7 @@ internal class BookConfiguration : IEntityTypeConfiguration<Book>
 
         builder
             .HasMany(book => book.Genres)
-            .WithMany(genre => genre.Boocks);
+            .WithMany(genre => genre.Books);
 
         builder
             .HasMany(book => book.RentedBooks)

@@ -9,9 +9,10 @@ public class Book : IEntity
     public string? Name { get; set; }
     public string? Description { get; set; }
 
+    public Guid InventoryId { get; set; }
     public LibraryInventory? Inventory { get; set; }
 
-    public int AuthorId { get; set; }
+    public Guid AuthorId { get; set; }
     public Author? Author { get; set; }
 
     public ICollection<Genre>? Genres { get; set; }

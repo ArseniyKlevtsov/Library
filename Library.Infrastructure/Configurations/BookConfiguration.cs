@@ -26,8 +26,10 @@ internal class BookConfiguration : IEntityTypeConfiguration<Book>
             .IsRequired();
 
         builder
-            .Property(book => book.Image)
-            .HasColumnType("image");
+            .HasOne(book => book.BookImage)
+            .WithOne(bookImage => bookImage.Book)
+            .HasForeignKey<BookImage>(bookImage => bookImage.BookId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .HasOne(book => book.Inventory)

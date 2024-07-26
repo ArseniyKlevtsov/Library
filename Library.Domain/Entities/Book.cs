@@ -8,7 +8,9 @@ public class Book : IEntity
     public string? Isbn { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
-    public byte[]? Image { get; set; } 
+
+    public Guid BookImageId { get; set; }
+    public BookImage? BookImage { get; set; }
 
     public Guid InventoryId { get; set; }
     public LibraryInventory? Inventory { get; set; }

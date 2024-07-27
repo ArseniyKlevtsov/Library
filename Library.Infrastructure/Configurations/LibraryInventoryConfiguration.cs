@@ -23,6 +23,6 @@ internal class LibraryInventoryConfiguration : IEntityTypeConfiguration<LibraryI
             .HasOne(libraryInventory => libraryInventory.Book)
             .WithOne(book => book.Inventory)
             .HasForeignKey<Book>(book => book.InventoryId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

@@ -23,6 +23,6 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMany(user => user.RentOrders)
             .WithOne(rentOrder => rentOrder.User)
             .HasForeignKey( rentOrder => rentOrder.UserId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -16,5 +16,11 @@ internal class RentOrderConfiguration : IEntityTypeConfiguration<RentOrder>
             .WithOne(rentedBook => rentedBook.RentOrder)
             .HasForeignKey(rentedBook => rentedBook.RentOrderId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasOne(rentOrer => rentOrer.User)
+            .WithMany(user => user.RentOrders)
+            .HasForeignKey(rentOrer => rentOrer.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

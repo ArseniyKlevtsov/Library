@@ -19,6 +19,6 @@ internal class BookImageConfiguration : IEntityTypeConfiguration<BookImage>
             .HasOne(bookImage => bookImage.Book)
             .WithOne(book => book.BookImage)
             .HasForeignKey<Book>(book => book.BookImageId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

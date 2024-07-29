@@ -1,8 +1,8 @@
 ﻿using System.Linq.Expressions;
 
-namespace Library.Domain.Interfaces;
+namespace Library.Domain.Interfaces.Repositories;
 
-public interface IRepository<TEntity> 
+public interface IRepository<TEntity>
     where TEntity : IEntity
 {
     Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);

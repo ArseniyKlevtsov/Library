@@ -1,4 +1,5 @@
 ﻿using Library.Domain.Entities;
+using Library.Infrastructure;
 using Library.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,9 @@ public static class ServiceRegistor
             .AddIdentity<User, IdentityRole<Guid>>()
             .AddEntityFrameworkStores<LibraryDbContext>()
             .AddDefaultTokenProviders();
+
+        services
+            .AddScoped<UnitOfWork>();
 
         return services;
     }

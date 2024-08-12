@@ -1,4 +1,6 @@
-﻿namespace Library.WebApi.Extentions;
+﻿using OnlineShop.WebApi.Middleware;
+
+namespace Library.WebApi.Extentions;
 
 public static class MiddlewareRegistrator
 {
@@ -11,10 +13,10 @@ public static class MiddlewareRegistrator
         }
 
         app.UseHttpsRedirection();
-
+        app.UseCors();
         app.UseAuthorization();
+        app.UseMiddleware<GlobalExceptionHandler>();
 
-        
         return app;
     }
 }

@@ -1,33 +1,73 @@
-﻿using Library.Application.DTOs.UserDtos.Request;
+﻿using AutoMapper;
+using Library.Application.DTOs.UserDtos.Request;
 using Library.Application.DTOs.UserDtos.Response;
 using Library.Application.Interfaces.Services;
+using Library.Domain.Interfaces.Repositories;
+using Library.Infrastructure;
 
 namespace Library.Application.Services;
 
 public class UserService : IUserService
 {
-    public Task CreateUserAsync(UserRequestDto userRequestDto, CancellationToken cancellationToken)
+    private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
+
+    public UserService(UnitOfWork unitOfWork, IMapper mapper)
     {
-        throw new NotImplementedException();
+        _userRepository = unitOfWork.Users;
+        _mapper = mapper;
     }
 
-    public Task DeleteUserAsync(int userId, CancellationToken cancellationToken)
+    public async Task<UserResponseDto> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+        if (user == null)
+        {
+            throw new KeyNotFoundException($"User with ID {userId} not found.");
+        }
+
+        var userResponseDto = _mapper.Map<UserResponseDto>(user);
+        return userResponseDto;
     }
 
-    public Task<IEnumerable<UserResponseDto>> GetAllUsersAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+    public async Task<IEnumerable<UserResponseDto>> GetAllUsersAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var users = await _userRepository.GetAllAsync(cancellationToken);
+
+        var totalCount = users.Count();
+        var skipCount = (pageNumber - 1) * pageSize;
+        var pagedUsers = users.Skip(skipCount).Take(pageSize);
+
+        var userResponseDtos = _mapper.Map<IEnumerable<UserResponseDto>>(pagedUsers);
+        return userResponseDtos;
     }
 
-    public Task<UserResponseDto> GetUserByIdAsync(int userId, CancellationToken cancellationToken)
+    public async Task CreateUserAsync(UserRequestDto userRequestDto, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var user = _mapper.Map<Domain.Entities.User>(userRequestDto);
+        await _userRepository.AddAsync(user, cancellationToken);
     }
 
-    public Task UpdateUserAsync(int userId, UserRequestDto userRequestDto, CancellationToken cancellationToken)
+    public async Task UpdateUserAsync(Guid userId, UserRequestDto userRequestDto, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+        if (user == null)
+        {
+            throw new KeyNotFoundException($"User with ID {userId} not found.");
+        }
+
+        _mapper.Map(userRequestDto, user);
+        await _userRepository.UpdateAsync(user, cancellationToken);
+    }
+
+    public async Task DeleteUserAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        var user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+        if (user == null)
+        {
+            throw new KeyNotFoundException($"User with ID {userId} not found.");
+        }
+
+        await _userRepository.DeleteAsync(user, cancellationToken);
     }
 }

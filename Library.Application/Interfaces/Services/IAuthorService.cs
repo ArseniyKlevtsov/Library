@@ -5,10 +5,10 @@ namespace Library.Application.Interfaces.Services;
 
 public interface IAuthorService
 {
-    Task<AuthorResponseDto> GetAuthorByIdAsync(int authorId, CancellationToken cancellationToken);
+    Task<AuthorResponseDto> GetAuthorByIdAsync(Guid authorId, CancellationToken cancellationToken);
     Task<IEnumerable<AuthorResponseDto>> GetAllAuthorsAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
 
     Task CreateAuthorAsync(AuthorRequestDto authorRequestDto, CancellationToken cancellationToken);
-    Task UpdateAuthorAsync(int authorId, AuthorRequestDto authorRequestDto, CancellationToken cancellationToken);
-    Task DeleteAuthorAsync(int authorId, CancellationToken cancellationToken);
+    Task UpdateAuthorAsync(Guid authorId, AuthorRequestDto authorRequestDto, CancellationToken cancellationToken);
+    Task DeleteAuthorAsync(Guid authorId, CancellationToken cancellationToken);
 }

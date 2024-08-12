@@ -27,6 +27,7 @@ public class GlobalExceptionHandler(RequestDelegate next)
             ArgumentException ex => new ResponseException(HttpStatusCode.BadRequest, ex.Message),
             NotImplementedException ex => new ResponseException(HttpStatusCode.NotImplemented, ex.Message),
             AuthenticationException ex => new ResponseException(HttpStatusCode.Unauthorized, ex.Message),
+            KeyNotFoundException ex => new ResponseException(HttpStatusCode.NotFound, ex.Message),
             _ => new ResponseException(HttpStatusCode.InternalServerError, "Internal server error. Please retry later. exception.Message:" + exception.Message)
         };
 

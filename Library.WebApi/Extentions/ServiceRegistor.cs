@@ -56,6 +56,10 @@ public static class ServiceRegistor
     {
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IAuthorService, AuthorService>();
+        services.AddScoped<IBookService, BookService>();
+        services.AddScoped<IGenreService, GenreService>();
+        services.AddScoped<IUserService, UserService>();
 
         services.AddAutoMapper(typeof(UserProfile).Assembly);
 

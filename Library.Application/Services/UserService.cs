@@ -16,7 +16,7 @@ public class UserService : IUserService
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<UserResponseDto>> GetAllUsersAsync(CancellationToken cancellationToken)
+    public Task<IEnumerable<UserResponseDto>> GetAllUsersAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

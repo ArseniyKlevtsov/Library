@@ -16,7 +16,7 @@ public class BookService : IBookService
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<BookResponseDto>> GetAllBooksAsync(CancellationToken cancellationToken)
+    public Task<IEnumerable<BookResponseDto>> GetAllBooksAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

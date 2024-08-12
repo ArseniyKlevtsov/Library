@@ -16,7 +16,7 @@ public class GenreService : IGenreService
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<GenreResponseDto>> GetAllGenresAsync(CancellationToken cancellationToken)
+    public Task<IEnumerable<GenreResponseDto>> GetAllGenresAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

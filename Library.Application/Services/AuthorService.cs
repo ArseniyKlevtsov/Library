@@ -16,7 +16,7 @@ public class AuthorService : IAuthorService
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<AuthorResponseDto>> GetAllAuthorsAsync(CancellationToken cancellationToken)
+    public Task<IEnumerable<AuthorResponseDto>> GetAllAuthorsAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

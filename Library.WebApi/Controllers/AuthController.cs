@@ -2,9 +2,7 @@
 using Library.Application.DTOs.AuthDtos.Request;
 using Library.Application.DTOs.AuthDtos.Response;
 using Library.Application.Interfaces.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Authentication;
 
 namespace Library.WebApi.Controllers;
 
@@ -13,12 +11,10 @@ namespace Library.WebApi.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
-    private readonly IMapper _mapper;
 
-    public AuthController(IAuthService authService, IMapper mapper)
+    public AuthController(IAuthService authService)
     {
         _authService = authService;
-        _mapper = mapper;
     }
 
     [HttpPost("register")]
@@ -36,7 +32,6 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("refresh")]
-    [Authorize]
     public async Task<ActionResult<TokenResponse>> RefreshTokenAsync()
     {
        throw new NotImplementedException();

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Library.Application.DTOs.GenreDtos.Request;
 
-namespace Library.Application.DTOs.GenreDtos.Request
+public class GenreRequestDto
 {
-    internal class GenreRequestDto
-    {
-    }
+    public string? Name { get; set; }
 }

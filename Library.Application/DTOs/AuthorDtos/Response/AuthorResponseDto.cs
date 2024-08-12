@@ -2,7 +2,7 @@
 
 namespace Library.Application.DTOs.AuthorDtos.Response;
 
-public class AuthorDto
+public class AuthorResponseDto
 {
     public string? Name { get; set; }
     public string? Surname { get; set; }

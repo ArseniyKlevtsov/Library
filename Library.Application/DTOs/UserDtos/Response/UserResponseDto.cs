@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Library.Domain.Entities;
 
-namespace Library.Application.DTOs.UserDtos.Response
+namespace Library.Application.DTOs.UserDtos.Response;
+
+public class UserResponseDto
 {
-    internal class UserResponseDto
-    {
-    }
+    public string? UserName { get; set; }
+    public string? Login { get; set; }
+    public string? PhoneNumber { get; set; }
+
+    public IEnumerable<RentOrder>? RentOrders { get; set; }
 }

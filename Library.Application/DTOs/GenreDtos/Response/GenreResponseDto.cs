@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Library.Domain.Entities;
 
-namespace Library.Application.DTOs.GenreDtos.Response
+namespace Library.Application.DTOs.GenreDtos.Response;
+
+public class GenreResponseDto
 {
-    internal class GenreResponseDto
-    {
-    }
+    public string? Name { get; set; }
+
+    public ICollection<Book>? Books { get; set; }
 }

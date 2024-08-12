@@ -1,12 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Library.Application.DTOs.BookDtos.Request;
+using Library.Application.DTOs.BookDtos.Response;
+using Library.Application.Interfaces.Services;
 
-namespace Library.Application.Services
+namespace Library.Application.Services;
+
+public class BookService : IBookService
 {
-    internal class BookService
+    public Task CreateBookAsync(BookRequestDto bookRequestDto, CancellationToken cancellationToken)
     {
+        throw new NotImplementedException();
+    }
+
+    public Task DeleteBookAsync(int bookId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<BookResponseDto>> GetAllBooksAsync(CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<BookResponseDto> GetBookByIdAsync(int bookId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateBookAsync(int bookId, BookRequestDto bookRequestDto, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }

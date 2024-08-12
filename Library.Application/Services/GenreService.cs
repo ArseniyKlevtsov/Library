@@ -1,12 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Library.Application.DTOs.GenreDtos.Request;
+using Library.Application.DTOs.GenreDtos.Response;
+using Library.Application.Interfaces.Services;
 
-namespace Library.Application.Services
+namespace Library.Application.Services;
+
+public class GenreService : IGenreService
 {
-    internal class GenreService
+    public Task CreateGenreAsync(GenreRequestDto genreRequestDto, CancellationToken cancellationToken)
     {
+        throw new NotImplementedException();
+    }
+
+    public Task DeleteGenreAsync(int genreId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<GenreResponseDto>> GetAllGenresAsync(CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<GenreResponseDto> GetGenreByIdAsync(int genreId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateGenreAsync(int genreId, GenreRequestDto genreRequestDto, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }

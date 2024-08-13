@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Library.Application.DTOs.AuthDtos.Request;
 using Library.Application.DTOs.AuthDtos.Response;
+using Library.Application.Exceptions;
 using Library.Application.Interfaces.Services;
 using Library.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -16,6 +17,8 @@ public class AuthService : IAuthService
     private readonly IConfiguration _configuration;
     private readonly IMapper _mapper;
     private readonly ITokenService _tokenService;
+    private readonly string _loginProvider;
+    private readonly string refreshTokenName = "RefreshToken";
 
     public AuthService(UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager, IMapper mapper, IConfiguration configuration, ITokenService tokenService)
     {
@@ -24,6 +27,7 @@ public class AuthService : IAuthService
         _configuration = configuration;
         _mapper = mapper;
         _tokenService = tokenService;
+        _loginProvider = _configuration["App:Name"]!;
     }
 
     public async Task RegisterAsync(RegisterRequestDto registerRequestDto)
@@ -57,12 +61,35 @@ public class AuthService : IAuthService
             throw new AuthenticationException($"user {loginRequestDto.UserName} was not found or the password is incorrect");
         }
 
-        return await _tokenService.GenerateTokensAsync(user);
+        var token = await _tokenService.GenerateTokensAsync(user);
+        await SetRefreshToken(user, token.RefreshToken!);
+
+        return token;
     }
 
-    public async Task<TokenResponse> RefreshTokenAsync(string refreshToken)
+    public async Task<TokenResponse> RefreshTokenAsync(RefreshRequestDto refreshRequestDto)
     {
-        //string accessToken, string refreshToken
-        throw new NotImplementedException();
+
+        var user = await _tokenService.GetUserFromTokenAsync(refreshRequestDto.ExpiredAccessToken!);
+        if (user == null)
+        {
+            throw new ReadTokenException("The token was refused");
+        }
+
+        var isValid = await _userManager.VerifyUserTokenAsync(user, _loginProvider, refreshTokenName, refreshRequestDto.RefreshToken!);
+        if (isValid==false) 
+        {
+            throw new ReadTokenException("The token was refused");
+        }
+
+        var newToken = await _tokenService.GenerateTokensAsync(user);
+        await SetRefreshToken(user, newToken.RefreshToken!);
+        return newToken;
+    }
+
+    private async Task SetRefreshToken(User user, string refreshToken)
+    {
+        await _userManager.RemoveAuthenticationTokenAsync(user, _loginProvider, refreshTokenName);
+        await _userManager.SetAuthenticationTokenAsync(user, _loginProvider, refreshTokenName, refreshToken);
     }
 }

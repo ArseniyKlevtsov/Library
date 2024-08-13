@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Library.Application.DTOs.AuthDtos.Response;
+using Library.Application.Exceptions;
 using Library.Application.Interfaces.Services;
 using Library.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -33,6 +34,26 @@ public class TokenService : ITokenService
             AccessToken = accessToken,
             RefreshToken = refreshToken,
         };
+    }
+
+    public async Task<User?> GetUserFromTokenAsync(string token)
+    {
+        try
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            var username = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            if (string.IsNullOrEmpty(username))
+                return null;
+
+            var user = await _userManager.FindByNameAsync(username);
+            return user;
+        }
+        catch (Exception)
+        {
+            throw new ReadTokenException("Error retrieving user from token");
+        }
     }
 
     private string GenerateAccessToken(List<Claim> claims)

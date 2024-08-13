@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Security.Authentication;
 using Library.Application.DTOs;
+using Library.Application.Exceptions;
 
 namespace OnlineShop.WebApi.Middleware;
 
@@ -25,6 +26,7 @@ public class GlobalExceptionHandler(RequestDelegate next)
         ResponseException response = exception switch
         {
             ArgumentException ex => new ResponseException(HttpStatusCode.BadRequest, ex.Message),
+            ReadTokenException ex => new ResponseException(HttpStatusCode.BadRequest, ex.Message),
             NotImplementedException ex => new ResponseException(HttpStatusCode.NotImplemented, ex.Message),
             AuthenticationException ex => new ResponseException(HttpStatusCode.Unauthorized, ex.Message),
             KeyNotFoundException ex => new ResponseException(HttpStatusCode.NotFound, ex.Message),

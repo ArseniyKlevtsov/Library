@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Library.Application.DTOs.AuthDtos.Request;
+﻿using Library.Application.DTOs.AuthDtos.Request;
 using Library.Application.DTOs.AuthDtos.Response;
 using Library.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -20,20 +19,21 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult> RegisterAsync(RegisterRequestDto registerRequestDto)
     {
-            await _authService.RegisterAsync(registerRequestDto);
-            return Ok();
+        await _authService.RegisterAsync(registerRequestDto);
+        return Ok();
     }
 
     [HttpPost("login")]
     public async Task<ActionResult<TokenResponse>> LoginAsync(LoginRequestDto loginRequestDto)
     {
-            var tokenResponse = await _authService.LoginAsync(loginRequestDto);
-            return Ok(tokenResponse);
+        var tokenResponse = await _authService.LoginAsync(loginRequestDto);
+        return Ok(tokenResponse);
     }
 
     [HttpPost("refresh")]
-    public async Task<ActionResult<TokenResponse>> RefreshTokenAsync()
+    public async Task<ActionResult<TokenResponse>> RefreshTokenAsync(RefreshRequestDto refreshRequestDto)
     {
-       throw new NotImplementedException();
+        var tokenResponse = await _authService.RefreshTokenAsync(refreshRequestDto);
+        return Ok(tokenResponse);
     }
 }

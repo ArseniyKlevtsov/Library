@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Library.Application.DTOs.BookDtos.Request;
+﻿using Library.Application.DTOs.BookDtos.Request;
 using Library.Application.DTOs.BookDtos.Response;
 using Library.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;

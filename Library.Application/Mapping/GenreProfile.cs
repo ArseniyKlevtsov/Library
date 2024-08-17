@@ -14,7 +14,6 @@ public class GenreProfile : Profile
             .ReverseMap();
 
         CreateMap<Genre, GenreResponseDto>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.BookIds, opt => opt.MapFrom(src => src.Books!.Select(book => book.Id)));
     }

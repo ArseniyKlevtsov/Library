@@ -23,6 +23,7 @@ public class UserProfile : Profile
             .ReverseMap();
 
         CreateMap<User, UserResponseDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
             .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.UserName))
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))

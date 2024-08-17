@@ -19,6 +19,7 @@ public class BookProfile : Profile
             .ReverseMap();
 
         CreateMap<Book, BookResponseDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Isbn, opt => opt.MapFrom(src => src.Isbn))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))

@@ -62,7 +62,7 @@ public class AuthService : IAuthService
         }
 
         var token = await _tokenService.GenerateTokensAsync(user);
-        await SetRefreshToken(user, token.RefreshToken!);
+        await SetRefreshTokenAsync(user, token.RefreshToken!);
 
         return token;
     }
@@ -75,19 +75,18 @@ public class AuthService : IAuthService
         {
             throw new ReadTokenException("The token was refused");
         }
-
-        var isValid = await _userManager.VerifyUserTokenAsync(user, _loginProvider, refreshTokenName, refreshRequestDto.RefreshToken!);
+        var isValid = (refreshRequestDto.RefreshToken == await _userManager.GetAuthenticationTokenAsync(user, _loginProvider, refreshTokenName));
         if (isValid==false) 
         {
             throw new ReadTokenException("The token was refused");
         }
 
         var newToken = await _tokenService.GenerateTokensAsync(user);
-        await SetRefreshToken(user, newToken.RefreshToken!);
+        await SetRefreshTokenAsync(user, newToken.RefreshToken!);
         return newToken;
     }
 
-    private async Task SetRefreshToken(User user, string refreshToken)
+    private async Task SetRefreshTokenAsync(User user, string refreshToken)
     {
         await _userManager.RemoveAuthenticationTokenAsync(user, _loginProvider, refreshTokenName);
         await _userManager.SetAuthenticationTokenAsync(user, _loginProvider, refreshTokenName, refreshToken);

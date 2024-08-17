@@ -21,7 +21,6 @@ public class AuthorProfile : Profile
             .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname))
             .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
             .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Country))
-            .ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.Books))
-            .ReverseMap();
+            .ForMember(dest => dest.BookIds, opt => opt.MapFrom(src => src.Books!.Select(book => book.Id)));
     }
 }

@@ -1,6 +1,4 @@
-﻿using Library.Domain.Entities;
-
-namespace Library.Application.DTOs.UserDtos.Response;
+﻿namespace Library.Application.DTOs.UserDtos.Response;
 
 public class UserResponseDto
 {
@@ -8,5 +6,5 @@ public class UserResponseDto
     public string? Login { get; set; }
     public string? PhoneNumber { get; set; }
 
-    public IEnumerable<RentOrder>? RentOrders { get; set; }
+    public IEnumerable<Guid>? RentOrderIds { get; set; }
 }

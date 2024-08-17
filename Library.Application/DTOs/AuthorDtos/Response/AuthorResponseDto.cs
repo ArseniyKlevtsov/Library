@@ -1,6 +1,4 @@
-﻿using Library.Domain.Entities;
-
-namespace Library.Application.DTOs.AuthorDtos.Response;
+﻿namespace Library.Application.DTOs.AuthorDtos.Response;
 
 public class AuthorResponseDto
 {
@@ -9,5 +7,5 @@ public class AuthorResponseDto
     public DateOnly BirthDate { get; set; }
     public string? Country { get; set; }
 
-    public ICollection<Book>? Books { get; set; }
+    public ICollection<Guid>? BookIds { get; set; }
 }

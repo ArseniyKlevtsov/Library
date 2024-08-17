@@ -23,14 +23,10 @@ public class BookProfile : Profile
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(dest => dest.BookImageId, opt => opt.MapFrom(src => src.BookImageId))
-            .ForMember(dest => dest.BookImage, opt => opt.MapFrom(src => src.BookImage))
             .ForMember(dest => dest.InventoryId, opt => opt.MapFrom(src => src.InventoryId))
-            .ForMember(dest => dest.Inventory, opt => opt.MapFrom(src => src.Inventory))
             .ForMember(dest => dest.AuthorId, opt => opt.MapFrom(src => src.AuthorId))
-            .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
-            .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.Genres))
-            .ForMember(dest => dest.RentedBooks, opt => opt.MapFrom(src => src.RentedBooks))
-            .ReverseMap();
+            .ForMember(dest => dest.GenreIds, opt => opt.MapFrom(src => src.Genres!.Select(genre => genre.Id)))
+            .ForMember(dest => dest.RentedBookIds, opt => opt.MapFrom(src => src.RentedBooks!.Select(rentedBook => rentedBook.Id)));
     }
 
 }

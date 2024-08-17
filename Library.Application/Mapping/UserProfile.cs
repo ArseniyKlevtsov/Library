@@ -26,7 +26,7 @@ public class UserProfile : Profile
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
             .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.UserName))
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
-            .ForMember(dest => dest.RentOrders, opt => opt.MapFrom(src => src.RentOrders))
+            .ForMember(dest => dest.RentOrderIds, opt => opt.MapFrom(src => src.RentOrders!.Select(rentOrder => rentOrder.Id)))
             .ReverseMap();
 
         CreateMap<UserRequestDto, User>()

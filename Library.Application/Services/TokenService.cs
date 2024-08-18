@@ -29,8 +29,6 @@ public class TokenService : ITokenService
         var accessToken = GenerateAccessToken(authClaims);
         var refreshToken = GenerateRefreshToken();
         var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
-        Console.WriteLine(isAdmin);
-        Console.WriteLine(user.UserName);
         return new TokenResponse
         {
             AccessToken = accessToken,

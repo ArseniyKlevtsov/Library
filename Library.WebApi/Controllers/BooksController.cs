@@ -25,11 +25,13 @@ public class BooksController : ControllerBase
         return Ok(book);
     }
 
-    [HttpGet]
+    [HttpPost("getAll")]
     [Authorize(Roles = "Admin,User")]
-    public async Task<ActionResult<IEnumerable<BookResponseDto>>> GetAllBooks(int pageNumber = 1, int pageSize = 10, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<BooksResponseDto>> GetAllBooks(
+        GetAllBooksRequestDto getAllBooksRequestDto,
+        CancellationToken cancellationToken = default)
     {
-        var books = await _bookService.GetAllBooksAsync(pageNumber, pageSize, cancellationToken);
+        var books = await _bookService.GetAllBooksAsync(getAllBooksRequestDto, cancellationToken);
         return Ok(books);
     }
 

@@ -6,7 +6,7 @@ namespace Library.Application.Interfaces.Services;
 public interface IAuthorService
 {
     Task<AuthorResponseDto> GetAuthorByIdAsync(Guid authorId, CancellationToken cancellationToken);
-    Task<IEnumerable<AuthorResponseDto>> GetAllAuthorsAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
+    Task<AuthorsResponseDto> GetAllAuthorsAsync(GetAllAuthorsRequestDto getAllAuthorsRequestDto, CancellationToken cancellationToken);
 
     Task CreateAuthorAsync(AuthorRequestDto authorRequestDto, CancellationToken cancellationToken);
     Task UpdateAuthorAsync(Guid authorId, AuthorRequestDto authorRequestDto, CancellationToken cancellationToken);

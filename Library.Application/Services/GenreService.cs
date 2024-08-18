@@ -31,16 +31,47 @@ public class GenreService : IGenreService
         return genreResponseDto;
     }
 
-    public async Task<IEnumerable<GenreResponseDto>> GetAllGenresAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+    public async Task<GenresResponseDto> GetAllGenresAsync(GetAllGenresRequestDto getAllGenresRequestDto, CancellationToken cancellationToken)
     {
         var genres = await _genreRepository.GetAllAsync(cancellationToken);
 
+        // filtration
+        if (getAllGenresRequestDto.BookId.HasValue)
+        {
+            var bookIdFilter = getAllGenresRequestDto.BookId.Value;
+            genres = genres.Where(g => g.Books!.Any(b => b.Id == bookIdFilter)).ToList();
+        }
+        if (!string.IsNullOrEmpty(getAllGenresRequestDto.NameFilter))
+        {
+            var nameFilter = getAllGenresRequestDto.NameFilter.ToLower();
+            genres = genres.Where(g => g.Name!.ToLower().Contains(nameFilter)).ToList();
+        }
+
+        // sorting
+        if (getAllGenresRequestDto.NameSortAsc.HasValue)
+        {
+            if (getAllGenresRequestDto.NameSortAsc.Value)
+            {
+                genres = genres.OrderBy(g => g.Name).ToList();
+            }
+            else
+            {
+                genres = genres.OrderByDescending(g => g.Name).ToList();
+            }
+        }
+
+        // pagination
         var totalCount = genres.Count();
-        var skipCount = (pageNumber - 1) * pageSize;
-        var pagedGenres = genres.Skip(skipCount).Take(pageSize);
+        var skipCount = (getAllGenresRequestDto.Page - 1) * getAllGenresRequestDto.PageSize;
+        var pagedGenres = genres.Skip(skipCount).Take(getAllGenresRequestDto.PageSize);
 
         var genreResponseDtos = _mapper.Map<IEnumerable<GenreResponseDto>>(pagedGenres);
-        return genreResponseDtos;
+        return new GenresResponseDto
+        {
+            TotalCount = totalCount,
+            TotalPages = (int)Math.Ceiling((double)totalCount / getAllGenresRequestDto.PageSize),
+            Genres = genreResponseDtos
+        };
     }
 
     public async Task CreateGenreAsync(GenreRequestDto genreRequestDto, CancellationToken cancellationToken)

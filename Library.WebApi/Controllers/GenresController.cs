@@ -25,11 +25,13 @@ public class GenresController : ControllerBase
         return Ok(genre);
     }
 
-    [HttpGet]
+    [HttpPost("getAll")]
     [Authorize(Roles = "Admin,User")]
-    public async Task<ActionResult<IEnumerable<GenreResponseDto>>> GetAllGenres(int pageNumber = 1, int pageSize = 10, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<GenresResponseDto>> GetAllGenres(
+        GetAllGenresRequestDto getAllGenresRequestDto,
+        CancellationToken cancellationToken = default)
     {
-        var genres = await _genreService.GetAllGenresAsync(pageNumber, pageSize, cancellationToken);
+        var genres = await _genreService.GetAllGenresAsync(getAllGenresRequestDto, cancellationToken);
         return Ok(genres);
     }
 

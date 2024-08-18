@@ -23,11 +23,11 @@ public class AuthorsController : ControllerBase
         return Ok(author);
     }
 
-    [HttpGet]
+    [HttpPost("getAll")]
     [Authorize(Roles = "Admin,User")]
-    public async Task<ActionResult<IEnumerable<AuthorResponseDto>>> GetAllAuthors(int pageNumber = 1, int pageSize = 10, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<AuthorResponseDto>> GetAllAuthors(GetAllAuthorsRequestDto getAllAuthorsRequestDto, CancellationToken cancellationToken = default)
     {
-        var authors = await _authorService.GetAllAuthorsAsync(pageNumber, pageSize, cancellationToken);
+        var authors = await _authorService.GetAllAuthorsAsync(getAllAuthorsRequestDto, cancellationToken);
         return Ok(authors);
     }
 

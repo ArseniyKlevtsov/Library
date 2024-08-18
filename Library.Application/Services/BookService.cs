@@ -5,6 +5,7 @@ using Library.Application.Interfaces.Services;
 using Library.Domain.Entities;
 using Library.Domain.Interfaces.Repositories;
 using Library.Infrastructure;
+using static System.Reflection.Metadata.BlobBuilder;
 
 public class BookService : IBookService
 {
@@ -29,16 +30,61 @@ public class BookService : IBookService
         return bookResponseDto;
     }
 
-    public async Task<IEnumerable<BookResponseDto>> GetAllBooksAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+    public async Task<BooksResponseDto> GetAllBooksAsync(GetAllBooksRequestDto getAllBooksRequestDto, CancellationToken cancellationToken)
     {
         var books = await _bookRepository.GetAllAsync(cancellationToken);
 
+        // filtration
+        if (!string.IsNullOrEmpty(getAllBooksRequestDto.BookNameFilter))
+        {
+            var bookNameFilter = getAllBooksRequestDto.BookNameFilter.ToLower();
+            books = books.Where(b => b.Name!.ToLower().Contains(bookNameFilter));
+        }
+        if (getAllBooksRequestDto.AuthorId.HasValue)
+        {
+            var authorId = getAllBooksRequestDto.AuthorId.Value;
+            books = books.Where(b => b.AuthorId == authorId);
+        }
+        if (getAllBooksRequestDto.GenreId.HasValue)
+        {
+            var genreId = getAllBooksRequestDto.GenreId.Value;
+            books = books.Where(b => b.Genres!.Any(g => g.Id == genreId));
+        }
+        if (getAllBooksRequestDto.RentOrderId.HasValue)
+        {
+            var rentOrderId = getAllBooksRequestDto.RentOrderId.Value;
+            books = books.Where(b => b.RentedBooks!.Any(r => r.RentOrderId == rentOrderId));
+        }
+
+        // sotring
+        if (getAllBooksRequestDto.BookNameSortAsc.HasValue)
+        {
+            books = getAllBooksRequestDto.BookNameSortAsc.Value
+                ? books.OrderBy(b => b.Name)
+                : books.OrderByDescending(b => b.Name);
+        }
+        if (getAllBooksRequestDto.IsbnSortAsc.HasValue)
+        {
+            books = getAllBooksRequestDto.IsbnSortAsc.Value
+                ? books.OrderBy(b => b.Isbn)
+                : books.OrderByDescending(b => b.Isbn);
+        }
+
+        // pagination
         var totalCount = books.Count();
+        var pageNumber = getAllBooksRequestDto.Page;
+        var pageSize = getAllBooksRequestDto.PageSize;
         var skipCount = (pageNumber - 1) * pageSize;
         var pagedBooks = books.Skip(skipCount).Take(pageSize);
 
         var bookResponseDtos = _mapper.Map<IEnumerable<BookResponseDto>>(pagedBooks);
-        return bookResponseDtos;
+
+        return new BooksResponseDto
+        {
+            TotalCount = totalCount,
+            TotalPages = (int)Math.Ceiling((double)totalCount / pageSize),
+            Books = bookResponseDtos
+        };
     }
 
     public async Task CreateBookAsync(BookRequestDto bookRequestDto, CancellationToken cancellationToken)

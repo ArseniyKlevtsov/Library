@@ -5,11 +5,12 @@ namespace Library.Application.Validators.BookValidators;
 
 public class BookRequestDtoValidator : AbstractValidator<BookRequestDto>
 {
+    private readonly string isbnRegex = @"^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$";
     public BookRequestDtoValidator()
     {
         RuleFor(x => x.Isbn)
             .NotEmpty()
-            .Matches(@"^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$")
+            .Matches(isbnRegex)
             .WithMessage("ISBN number must be a valid 10 or 13-digit ISBN number.");
 
         RuleFor(x => x.Name)

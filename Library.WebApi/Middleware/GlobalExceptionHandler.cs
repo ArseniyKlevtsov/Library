@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Security.Authentication;
-using Library.Application.DTOs;
+using Library.WebApi.DTOs;
 using Library.Application.Exceptions;
 
 namespace OnlineShop.WebApi.Middleware;

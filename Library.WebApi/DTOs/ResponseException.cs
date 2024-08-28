@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Library.Application.DTOs;
+namespace Library.WebApi.DTOs;
 
 public class ResponseException(HttpStatusCode httpStatusCode, string message)
 {

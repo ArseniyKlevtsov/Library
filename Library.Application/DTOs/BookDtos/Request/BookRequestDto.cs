@@ -6,7 +6,7 @@ public class BookRequestDto
     public string? Name { get; set; }
     public string? Description { get; set; }
 
-    public Guid BookImageId { get; set; }
-    public Guid InventoryId { get; set; }
-    public Guid AuthorId { get; set; }
+
+    public Guid? AuthorId { get; set; }
+    public ICollection<Guid>? GenreIds { get; set; }
 }

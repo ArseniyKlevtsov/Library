@@ -13,8 +13,6 @@ public class BookProfile : Profile
             .ForMember(dest => dest.Isbn, opt => opt.MapFrom(src => src.Isbn))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-            .ForMember(dest => dest.BookImageId, opt => opt.MapFrom(src => src.BookImageId))
-            .ForMember(dest => dest.InventoryId, opt => opt.MapFrom(src => src.InventoryId))
             .ForMember(dest => dest.AuthorId, opt => opt.MapFrom(src => src.AuthorId))
             .ReverseMap();
 

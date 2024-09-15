@@ -16,4 +16,11 @@
     <ProjectReference Include="..\Library.Infrastructure\Library.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\BookUseCases\" />
+    <Folder Include="UseCases\GenreUseCases\" />
+    <Folder Include="UseCases\AuthorsUseCases\" />
+    <Folder Include="UseCases\ProfileUseCases\" />
+  </ItemGroup>
+
 </Project>

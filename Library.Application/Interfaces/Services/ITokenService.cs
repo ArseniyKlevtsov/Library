@@ -7,4 +7,5 @@ public interface ITokenService
 {
     Task<TokenResponse> GenerateTokensAsync(User user);
     Task<User?> GetUserFromTokenAsync(string token);
+    Task SetRefreshTokenAsync(User user, string refreshToken);
 }

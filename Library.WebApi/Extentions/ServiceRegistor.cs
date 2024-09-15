@@ -1,8 +1,10 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Library.Application.Interfaces.Services;
+using Library.Application.Interfaces.UseCases;
 using Library.Application.Mapping;
 using Library.Application.Services;
+using Library.Application.UseCases.Auth;
 using Library.Application.Validators.AuthValidators;
 using Library.Domain.Entities;
 using Library.Infrastructure;
@@ -27,6 +29,7 @@ public static class ServiceRegistor
         services.AddApplicationServices(configuration);
         services.AddAuhtServices(configuration);
         services.AddAnyServices(configuration);
+        services.AddUseCases(configuration);
         return services;
     }
 
@@ -54,7 +57,7 @@ public static class ServiceRegistor
     }
     private static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IAuthService, AuthService>();
+        
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IAuthorService, AuthorService>();
         services.AddScoped<IBookService, BookService>();
@@ -110,6 +113,14 @@ public static class ServiceRegistor
                            .AllowAnyMethod();
                 });
         });
+        return services;
+    }
+
+    private static IServiceCollection AddUseCases(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<ILoginUseCase, Login>();
+        services.AddScoped<IRegisterUseCase, Register>();
+        services.AddScoped<IRefreshAuthorizationUseCase, RefreshAuthorization>();
         return services;
     }
 }

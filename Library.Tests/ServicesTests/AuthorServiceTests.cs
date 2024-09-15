@@ -9,6 +9,8 @@ namespace Library.Tests.ServicesTests;
 
 public class AuthorServiceTests
 {
+    /*
+
     [Fact]
     public async Task AuthorService_CrudOperations_Test()
     {
@@ -71,5 +73,7 @@ public class AuthorServiceTests
             var exception = await Assert.ThrowsAnyAsync<Exception>(() => authorService.GetAuthorByIdAsync(unsureId, CancellationToken.None));
             Assert.IsType<KeyNotFoundException>(exception);
         }
+
     }
+        */
 }

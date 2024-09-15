@@ -1,6 +1,8 @@
-﻿using Library.Domain.Interfaces.Repositories;
+﻿using Library.Domain.Entities;
+using Library.Domain.Interfaces.Repositories;
 using Library.Infrastructure.Data;
 using Library.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Identity;
 
 namespace Library.Infrastructure;
 
@@ -8,20 +10,36 @@ public class UnitOfWork : IDisposable
 {
     private bool disposed = false;
 
-    private LibraryDbContext _libraryDbContext;
+    private readonly LibraryDbContext _libraryDbContext;
+    private readonly UserManager<User> _userManager;
+    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
-    private IAuthorRepository authorRepository;
-    private IBookRepository bookRepository;
-    private IBookImageRepository bookImageRepository;
-    private IGenreRepository genreRepository;
-    private ILibraryInventoryRepository libraryInventoryRepository;
-    private IRentOrderRepository rentOrderRepository;
-    private IRentedBookRepository rentedBookRepository;
-    private IUserRepository userRepository;
 
-    public UnitOfWork(LibraryDbContext libraryDbContext)
+    private IAccountManager? accountManager;
+    private IAuthorRepository? authorRepository;
+    private IBookRepository? bookRepository;
+    private IBookImageRepository? bookImageRepository;
+    private IGenreRepository? genreRepository;
+    private ILibraryInventoryRepository? libraryInventoryRepository;
+    private IRentOrderRepository? rentOrderRepository;
+    private IRentedBookRepository? rentedBookRepository;
+    private IUserRepository? userRepository;
+
+    public UnitOfWork(LibraryDbContext libraryDbContext, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager)
     {
         _libraryDbContext = libraryDbContext;
+        _userManager = userManager;
+        _roleManager = roleManager;
+    }
+
+    public IAccountManager AccountManager
+    {
+        get
+        {
+            if (accountManager == null)
+                accountManager = new AccountManager(_userManager, _roleManager);
+            return accountManager;
+        }
     }
 
     public IAuthorRepository Authors

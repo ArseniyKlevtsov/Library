@@ -1,6 +1,7 @@
 ﻿using Library.Application.DTOs.AuthDtos.Request;
 using Library.Application.DTOs.AuthDtos.Response;
-using Library.Application.Interfaces.Services;
+using Library.Application.DTOs.UserDtos.Response;
+using Library.Application.Interfaces.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebApi.Controllers;
@@ -9,31 +10,35 @@ namespace Library.WebApi.Controllers;
 [ApiController]
 public class AuthController : ControllerBase
 {
-    private readonly IAuthService _authService;
+    private readonly ILoginUseCase _login;
+    private readonly IRegisterUseCase _register;
+    private readonly IRefreshAuthorizationUseCase _refresh;
 
-    public AuthController(IAuthService authService)
+    public AuthController (ILoginUseCase login, IRegisterUseCase register, IRefreshAuthorizationUseCase refrehs)
     {
-        _authService = authService;
+        _login = login;
+        _register = register;
+        _refresh = refrehs;
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult> RegisterAsync(RegisterRequestDto registerRequestDto)
+    public async Task<ActionResult<UserResponseDto>> RegisterAsync(RegisterRequestDto registerRequestDto)
     {
-        await _authService.RegisterAsync(registerRequestDto);
-        return Ok();
+        var userResponseDto = await _register.ExecuteAsync(registerRequestDto);
+        return Ok(userResponseDto);
     }
 
     [HttpPost("login")]
     public async Task<ActionResult<TokenResponse>> LoginAsync(LoginRequestDto loginRequestDto)
     {
-        var tokenResponse = await _authService.LoginAsync(loginRequestDto);
+        var tokenResponse = await _login.ExecuteAsync(loginRequestDto);
         return Ok(tokenResponse);
     }
 
     [HttpPost("refresh")]
-    public async Task<ActionResult<TokenResponse>> RefreshTokenAsync(RefreshRequestDto refreshRequestDto)
+    public async Task<ActionResult<TokenResponse>> RefreshAsync(RefreshRequestDto refreshRequestDto)
     {
-        var tokenResponse = await _authService.RefreshTokenAsync(refreshRequestDto);
+        var tokenResponse = await _refresh.ExecuteAsync(refreshRequestDto);
         return Ok(tokenResponse);
     }
 }

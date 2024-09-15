@@ -1,25 +1,29 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Library.Application.DTOs.AuthDtos.Response;
+﻿using Library.Application.DTOs.AuthDtos.Response;
 using Library.Application.Exceptions;
 using Library.Application.Interfaces.Services;
 using Library.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
+using Library.Domain.Interfaces.Repositories;
+using Library.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Library.Application.Services;
 
 public class TokenService : ITokenService
 {
     private readonly IConfiguration _configuration;
-    private readonly UserManager<User> _userManager;
+    private readonly IAccountManager _accountManager;
+    private readonly string _loginProvider;
+    private readonly string _refreshTokenName = "RefreshToken";
 
-    public TokenService(IConfiguration configuration, UserManager<User> userManager)
+    public TokenService(IConfiguration configuration, UnitOfWork unitOfWork)
     {
         _configuration = configuration;
-        _userManager = userManager;
+        _accountManager = unitOfWork.AccountManager;
+        _loginProvider = _configuration["App:Name"]!;
     }
 
     public async Task<TokenResponse> GenerateTokensAsync(User user)
@@ -28,7 +32,7 @@ public class TokenService : ITokenService
 
         var accessToken = GenerateAccessToken(authClaims);
         var refreshToken = GenerateRefreshToken();
-        var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+        var isAdmin = await _accountManager.IsInRoleAsync(user, "Admin");
         return new TokenResponse
         {
             AccessToken = accessToken,
@@ -48,7 +52,7 @@ public class TokenService : ITokenService
             if (string.IsNullOrEmpty(username))
                 return null;
 
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _accountManager.FindByNameAsync(username);
             return user;
         }
         catch (Exception)
@@ -85,12 +89,18 @@ public class TokenService : ITokenService
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
-        var userRoles = await _userManager.GetRolesAsync(user);
+        var userRoles = await _accountManager.GetRolesAsync(user);
         foreach (var userRole in userRoles)
         {
             authClaims.Add(new Claim(ClaimTypes.Role, userRole));
         }
 
         return authClaims;
+    }
+
+    public async Task SetRefreshTokenAsync(User user, string refreshToken)
+    {
+        await _accountManager.RemoveAuthenticationTokenAsync(user, _loginProvider, _refreshTokenName);
+        await _accountManager.SetAuthenticationTokenAsync(user, _loginProvider, _refreshTokenName, refreshToken);
     }
 }

@@ -3,7 +3,7 @@ using Library.Application.DTOs.AuthDtos.Request;
 using Library.Application.DTOs.AuthDtos.Response;
 using Library.Application.Exceptions;
 using Library.Application.Interfaces.Services;
-using Library.Application.Interfaces.UseCases;
+using Library.Application.Interfaces.UseCases.Auth;
 using Library.Domain.Interfaces.Repositories;
 using Library.Infrastructure;
 

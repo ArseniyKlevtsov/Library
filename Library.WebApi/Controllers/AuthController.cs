@@ -1,7 +1,7 @@
 ﻿using Library.Application.DTOs.AuthDtos.Request;
 using Library.Application.DTOs.AuthDtos.Response;
 using Library.Application.DTOs.UserDtos.Response;
-using Library.Application.Interfaces.UseCases;
+using Library.Application.Interfaces.UseCases.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebApi.Controllers;

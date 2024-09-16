@@ -3,7 +3,7 @@ using Library.Application.DTOs.AuthDtos.Request;
 using Library.Application.DTOs.UserDtos.Response;
 using Library.Application.Exceptions;
 using Library.Application.Interfaces.Services;
-using Library.Application.Interfaces.UseCases;
+using Library.Application.Interfaces.UseCases.Auth;
 using Library.Domain.Entities;
 using Library.Domain.Interfaces.Repositories;
 using Library.Infrastructure;
@@ -36,7 +36,7 @@ public class Register: IRegisterUseCase
         var isUserCreated = await _accountManager.CreateAsync(user, registerRequestDto.Password!);
         if (isUserCreated == false)
         {
-            throw new ArgumentException($"Failed to register user", new Exception());
+            throw new NotFoundException($"Failed to register user");
         }
 
         await _accountManager.AddToRoleAsync(user, "User");

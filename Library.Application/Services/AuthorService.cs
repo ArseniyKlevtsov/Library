@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Library.Application.DTOs.AuthorDtos.Request;
 using Library.Application.DTOs.AuthorDtos.Response;
-using Library.Application.DTOs.GenreDtos.Request;
-using Library.Application.DTOs.GenreDtos.Response;
 using Library.Application.Interfaces.Services;
 using Library.Domain.Entities;
 using Library.Domain.Interfaces.Repositories;

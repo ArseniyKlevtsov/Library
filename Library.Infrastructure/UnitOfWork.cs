@@ -112,9 +112,9 @@ public class UnitOfWork : IDisposable
         }
     }
 
-    public void Save()
+    public async Task SaveAsync()
     {
-        _libraryDbContext.SaveChanges();
+        await _libraryDbContext.SaveChangesAsync();
     }
 
     public virtual void Dispose(bool disposing)

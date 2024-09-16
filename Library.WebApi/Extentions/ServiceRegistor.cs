@@ -1,10 +1,12 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Library.Application.Interfaces.Services;
-using Library.Application.Interfaces.UseCases;
+using Library.Application.Interfaces.UseCases.Auth;
+using Library.Application.Interfaces.UseCases.Authors;
 using Library.Application.Mapping;
 using Library.Application.Services;
 using Library.Application.UseCases.Auth;
+using Library.Application.UseCases.AuthorsUseCases;
 using Library.Application.Validators.AuthValidators;
 using Library.Domain.Entities;
 using Library.Infrastructure;
@@ -121,6 +123,10 @@ public static class ServiceRegistor
         services.AddScoped<ILoginUseCase, Login>();
         services.AddScoped<IRegisterUseCase, Register>();
         services.AddScoped<IRefreshAuthorizationUseCase, RefreshAuthorization>();
+
+        services.AddScoped<ICreateAuthor, CreateAuthor>();
+        services.AddScoped<IDeleteAuthor, DeleteAuthor>();
+        services.AddScoped<IGetAuthorById, GetAuthorById>();
         return services;
     }
 }

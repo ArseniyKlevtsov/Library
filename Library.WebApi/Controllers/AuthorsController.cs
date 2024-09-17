@@ -1,7 +1,6 @@
 ﻿using Library.Application.DTOs.AuthorDtos.Request;
 using Library.Application.DTOs.AuthorDtos.Response;
 using Library.Application.Interfaces.Services;
-using Library.Application.Interfaces.UseCases;
 using Library.Application.Interfaces.UseCases.Authors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

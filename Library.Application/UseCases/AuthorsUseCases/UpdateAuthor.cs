@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Library.Application.DTOs.AuthorDtos.Request;
 using Library.Application.DTOs.AuthorDtos.Response;
-using Library.Application.Interfaces.UseCases;
+using Library.Application.Interfaces.UseCases.Authors;
 using Library.Domain.Entities;
 using Library.Domain.Interfaces.Repositories;
 using Library.Infrastructure;
@@ -33,6 +33,6 @@ public class UpdateAuthor: IUpdateAuthor
         await _authorRepository.UpdateAsync(author, cancellationToken);
         await _unitOfWork.SaveAsync();
         var updatedAuthor = _mapper.Map<AuthorResponseDto>(author);
-        return _mapper.Map<AuthorResponseDto>(updatedAuthor);
+        return updatedAuthor;
     }
 }

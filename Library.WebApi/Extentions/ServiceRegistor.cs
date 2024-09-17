@@ -63,7 +63,6 @@ public static class ServiceRegistor
     {
         
         services.AddScoped<ITokenService, TokenService>();
-        services.AddScoped<IBookService, BookService>();
         services.AddScoped<IGenreService, GenreService>();
         services.AddScoped<IUserService, UserService>();
 
@@ -134,6 +133,8 @@ public static class ServiceRegistor
         services.AddScoped<ICreateBook, CreateBook>();
         services.AddScoped<IDeleteBook, DeleteBook>();
         services.AddScoped<IUpdateBook, UpdateBook>();
+        services.AddScoped<IGetBookById, GetBookById>();
+        services.AddScoped<IGetBooksPage, GetBooksPage>();
         return services;
     }
 }

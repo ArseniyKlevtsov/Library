@@ -97,10 +97,16 @@ public class AuthorRepository : BaseRepository<Author>, IAuthorRepository
         if (authorCriterias.Page.HasValue && authorCriterias.PageSize.HasValue)
         {
             var skip = (authorCriterias.Page.Value - 1) * authorCriterias.PageSize.Value;
-            return await query.Skip(skip).Take(authorCriterias.PageSize.Value).ToListAsync(cancellationToken);
+            return await query
+                .AsNoTracking()
+                .Skip(skip)
+                .Take(authorCriterias.PageSize.Value)
+                .ToListAsync(cancellationToken);
         }
 
-        return await query.ToListAsync(cancellationToken);
+        return await query
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 }
 

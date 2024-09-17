@@ -2,6 +2,7 @@
 using Library.Application.DTOs.AuthorDtos.Response;
 using Library.Application.Exceptions;
 using Library.Application.Interfaces.UseCases.Authors;
+using Library.Domain.IncludeStates;
 using Library.Domain.Interfaces.Repositories;
 using Library.Infrastructure;
 
@@ -21,7 +22,12 @@ public class GetAuthorById : IGetAuthorById
     }
     public async Task<AuthorResponseDto> ExecuteAsync(Guid id, CancellationToken cancellationToken)
     {
-        var author = await _authorRepository.GetByIdAsync(id, cancellationToken);
+        var includeState = new AuthorIncludeState()
+        {
+            IncludeBooks = true
+        };
+
+        var author = await _authorRepository.GetWithIncludeByPredicateAsync(author => author.Id == id, includeState, cancellationToken);
         if (author == null)
         {
             throw new NotFoundException($"Author with ID {id} not found.");

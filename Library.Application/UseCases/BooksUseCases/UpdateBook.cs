@@ -6,7 +6,9 @@ using Library.Application.DTOs.BookDtos.Response;
 using Library.Application.Exceptions;
 using Library.Application.Interfaces.UseCases.BookUseCases;
 using Library.Domain.Entities;
+using Library.Domain.IncludeStates;
 using Library.Infrastructure;
+using System.Linq.Expressions;
 
 namespace Library.Application.UseCases.BooksUseCases;
 
@@ -34,5 +36,20 @@ public class UpdateBook: IUpdateBook
         await _unitOfWork.SaveAsync();
         var updatedBook = _mapper.Map<BookResponseDto>(book);
         return updatedBook;
+    }
+
+    private async Task<Guid> UpdateInventoryForBook(BookRequestDto bookRequestDto, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    private async Task ReBindGenres(Book book, ICollection<Guid>? genreIds, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    private async Task<Guid> UpdateBookImage(BookRequestDto bookRequestDto, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }

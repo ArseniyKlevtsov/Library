@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Library.Application.Interfaces.Services;
+using Library.Application.Interfaces.UseCases;
 using Library.Application.Interfaces.UseCases.Auth;
 using Library.Application.Interfaces.UseCases.Authors;
 using Library.Application.Mapping;
@@ -61,7 +62,6 @@ public static class ServiceRegistor
     {
         
         services.AddScoped<ITokenService, TokenService>();
-        services.AddScoped<IAuthorService, AuthorService>();
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IGenreService, GenreService>();
         services.AddScoped<IUserService, UserService>();
@@ -127,6 +127,8 @@ public static class ServiceRegistor
         services.AddScoped<ICreateAuthor, CreateAuthor>();
         services.AddScoped<IDeleteAuthor, DeleteAuthor>();
         services.AddScoped<IGetAuthorById, GetAuthorById>();
+        services.AddScoped<IUpdateAuthor, UpdateAuthor>();
+        services.AddScoped<IGetAuthorsPage, GetAuthorsPage>();
         return services;
     }
 }

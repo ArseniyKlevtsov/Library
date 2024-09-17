@@ -1,4 +1,5 @@
-﻿using Library.Domain.Interfaces;
+﻿using Library.Domain.Entities;
+using Library.Domain.Interfaces;
 using Library.Domain.Interfaces.Repositories;
 using Library.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -46,5 +47,10 @@ public class BaseRepository<TEntity> : IRepository<TEntity>
     public async Task<TEntity?> GetByPredicateAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
     {
         return await _dbSet.AsNoTracking().FirstOrDefaultAsync(predicate, cancellationToken);
+    }
+
+    public async Task<int> GetCountAsync(CancellationToken cancellationToken)
+    {
+        return await _dbSet.CountAsync(cancellationToken);
     }
 }

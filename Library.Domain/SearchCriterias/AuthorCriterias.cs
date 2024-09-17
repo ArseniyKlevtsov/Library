@@ -1,6 +1,6 @@
-﻿namespace Library.Application.DTOs.AuthorDtos.Request;
+﻿namespace Library.Domain.SearchCriteries;
 
-public class GetAllAuthorsRequestDto
+public class AuthorCriterias
 {
     public int? Page { get; set; }
     public int? PageSize { get; set; }

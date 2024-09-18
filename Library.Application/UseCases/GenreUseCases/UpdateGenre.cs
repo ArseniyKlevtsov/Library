@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Library.Application.DTOs.BookDtos.Request;
 using Library.Application.DTOs.GenreDtos.Request;
 using Library.Application.DTOs.GenreDtos.Response;
 using Library.Application.Interfaces.UseCases.GenreUseCases;
-using Library.Domain.Entities;
 using Library.Infrastructure;
 
 namespace Library.Application.UseCases.GenresUseCases;

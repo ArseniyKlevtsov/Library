@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\BookUseCases\" />
-    <Folder Include="UseCases\GenreUseCases\" />
     <Folder Include="UseCases\ProfileUseCases\" />
+    <Folder Include="UseCases\UserUseCases\OrderActionsUseCases\" />
+    <Folder Include="UseCases\UserUseCases\AccountActions\" />
   </ItemGroup>
 
 </Project>

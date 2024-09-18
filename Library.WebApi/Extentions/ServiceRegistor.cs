@@ -135,6 +135,7 @@ public static class ServiceRegistor
         services.AddScoped<IUpdateBook, UpdateBook>();
         services.AddScoped<IGetBookById, GetBookById>();
         services.AddScoped<IGetBooksPage, GetBooksPage>();
+        services.AddScoped<IGetBookEditInfo, GetBookEditInfo>();
         return services;
     }
 }

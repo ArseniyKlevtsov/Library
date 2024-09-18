@@ -102,6 +102,16 @@ public class UnitOfWork : IDisposable
         }
     }
 
+    public IRentedBookRepository RentedBooks
+    {
+        get
+        {
+            if (rentedBookRepository == null)
+                rentedBookRepository = new RentedBookRepository(_libraryDbContext);
+            return rentedBookRepository;
+        }
+    }
+
     public IUserRepository Users
     {
         get

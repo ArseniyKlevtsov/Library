@@ -51,7 +51,6 @@ public class CreateBook : ICreateBook
         if (genreIds == null) 
         {
             return;
-        
         }
         
         var ids = genreIds.ToList();

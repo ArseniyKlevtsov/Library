@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using Library.Application.DTOs.AuthorDtos.Request;
-using Library.Application.DTOs.AuthorDtos.Response;
 using Library.Application.DTOs.BookDtos.Request;
 using Library.Application.DTOs.BookDtos.Response;
-using Library.Application.Exceptions;
 using Library.Application.Interfaces.UseCases.BookUseCases;
 using Library.Domain.Entities;
 using Library.Domain.IncludeStates;
@@ -31,25 +28,43 @@ public class UpdateBook: IUpdateBook
             throw new KeyNotFoundException($"book with ID {id} not found.");
         }
 
+        await ReBindGenres(book, bookRequestDto.GenreIds, cancellationToken);
+
         _mapper.Map(bookRequestDto, book);
         await _unitOfWork.Books.UpdateAsync(book, cancellationToken);
         await _unitOfWork.SaveAsync();
         var updatedBook = _mapper.Map<BookResponseDto>(book);
+        
         return updatedBook;
     }
 
-    private async Task<Guid> UpdateInventoryForBook(BookRequestDto bookRequestDto, CancellationToken cancellationToken)
+    private async Task UpdateInventoryForBook(Book book,BookRequestDto bookRequestDto, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var inventory = await _unitOfWork.LibraryInventorys.GetByIdAsync(book.InventoryId, cancellationToken);
+        _mapper.Map(bookRequestDto, inventory);
     }
 
     private async Task ReBindGenres(Book book, ICollection<Guid>? genreIds, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var includeState = new GenreIncludeState();
+
+        if (genreIds == null)
+        {
+            return;
+        }
+
+        var ids = genreIds.ToList();
+
+        Expression<Func<Genre, bool>> predicate = genre => ids.Contains(genre.Id);
+
+        var genres = await _unitOfWork.Genres.GetWithIncludeByPredicateAsync(predicate, includeState, cancellationToken);
+
+        book.Genres = genres.ToList();
     }
 
-    private async Task<Guid> UpdateBookImage(BookRequestDto bookRequestDto, CancellationToken cancellationToken)
+    private async Task UpdateBookImage(Book book, BookRequestDto bookRequestDto, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var bookImage = await _unitOfWork.BookImages.GetByIdAsync(book.BookImageId, cancellationToken);
+        _mapper.Map(bookRequestDto, bookImage);
     }
 }

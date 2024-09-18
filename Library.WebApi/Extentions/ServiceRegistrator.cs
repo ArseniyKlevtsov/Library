@@ -4,11 +4,13 @@ using Library.Application.Interfaces.Services;
 using Library.Application.Interfaces.UseCases.Auth;
 using Library.Application.Interfaces.UseCases.Authors;
 using Library.Application.Interfaces.UseCases.BookUseCases;
+using Library.Application.Interfaces.UseCases.GenreUseCases;
 using Library.Application.Mapping;
 using Library.Application.Services;
 using Library.Application.UseCases.Auth;
 using Library.Application.UseCases.AuthorsUseCases;
 using Library.Application.UseCases.BooksUseCases;
+using Library.Application.UseCases.GenresUseCases;
 using Library.Application.Validators.AuthValidators;
 using Library.Domain.Entities;
 using Library.Infrastructure;
@@ -21,7 +23,7 @@ using System.Text;
 
 namespace Library.WebApi.Extentions;
 
-public static class ServiceRegistor
+public static class ServiceRegistrator
 {
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
@@ -63,7 +65,6 @@ public static class ServiceRegistor
     {
         
         services.AddScoped<ITokenService, TokenService>();
-        services.AddScoped<IGenreService, GenreService>();
         services.AddScoped<IUserService, UserService>();
 
         services.AddAutoMapper(typeof(UserProfile).Assembly);
@@ -136,6 +137,12 @@ public static class ServiceRegistor
         services.AddScoped<IGetBookById, GetBookById>();
         services.AddScoped<IGetBooksPage, GetBooksPage>();
         services.AddScoped<IGetBookEditInfo, GetBookEditInfo>();
+
+        services.AddScoped<ICreateGenre, CreateGenre>();
+        services.AddScoped<IGetGenreById, GetGenreById>();
+        services.AddScoped<IDeleteGenre, DeleteGenre>();
+        services.AddScoped<IUpdateGenre, UpdateGenre>();
+        services.AddScoped<IGetGenresPage, GetGenresPage>();
         return services;
     }
 }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Library.Application.Exceptions;
+﻿using Library.Application.Exceptions;
 using Library.Application.Interfaces.UseCases.BookUseCases;
 using Library.Infrastructure;
 
@@ -8,12 +7,10 @@ namespace Library.Application.UseCases.BooksUseCases;
 public class DeleteBook: IDeleteBook
 {
     private readonly UnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
 
-    public DeleteBook(UnitOfWork unitOfWork, IMapper mapper)
+    public DeleteBook(UnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
     }
 
     public async Task ExecuteAsync(Guid id, CancellationToken cancellationToken)

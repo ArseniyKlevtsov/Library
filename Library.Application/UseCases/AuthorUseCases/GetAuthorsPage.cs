@@ -41,7 +41,7 @@ public class GetAuthorsPage : IGetAuthorsPage
         var hasValue = getAllAuthorsRequestDto.PageSize.HasValue;
         if (hasValue)
         {
-            return totalCount / (int)getAllAuthorsRequestDto.PageSize!;
+            return (int)Math.Ceiling((double)totalCount / (int)getAllAuthorsRequestDto.PageSize!);
         }
 
         return 0;

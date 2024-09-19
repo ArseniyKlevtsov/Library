@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Library.Application.DTOs.AuthorDtos.Response;
 using Library.Application.DTOs.BookDtos.Response;
+using Library.Application.DTOs.GenreDtos.Response;
 using Library.Application.Interfaces.UseCases.BookUseCases;
 using Library.Infrastructure;
 
@@ -20,6 +22,12 @@ public class GetBookEditInfo : IGetBookEditInfo
         var authors = await _unitOfWork.Authors.GetAllAsync(cancellationToken);
         var genres = await _unitOfWork.Genres.GetAllAsync(cancellationToken);
 
-        return new BookEditInfo() { Authors = authors, Genres = genres };
+        var bookEditInfo = new BookEditInfo()
+        {
+            Authors = _mapper.Map<IEnumerable<AuthorResponseDto>>(authors),
+            Genres = _mapper.Map<IEnumerable<GenreResponseDto>>(genres)
+        };
+
+        return bookEditInfo;
     }
 }

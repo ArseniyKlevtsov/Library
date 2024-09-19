@@ -33,7 +33,7 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpPost("getAll")]
-    //[Authorize(Roles = "Admin,User")]
+    [Authorize(Roles = "Admin,User")]
     public async Task<ActionResult<AuthorResponseDto>> GetAllAuthors(GetAllAuthorsRequestDto getAllAuthorsRequestDto, CancellationToken cancellationToken = default)
     {
         var authors = await _getAuthorsPage.ExecuteAsync(getAllAuthorsRequestDto, cancellationToken);
@@ -49,7 +49,7 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<AuthorResponseDto>> UpdateAuthor(Guid id, AuthorRequestDto authorRequestDto, CancellationToken cancellationToken)
     {
         var updatedAuthor = await _updateAuthor.ExecuteAsync(id, authorRequestDto, cancellationToken);

@@ -21,14 +21,14 @@ public class GetBooksPage: IGetBooksPage
     public async Task<BooksResponseDto> ExecuteAsync(GetAllBooksRequestDto getAllBooksRequestDto, CancellationToken cancellationToken)
     {
         var criterias = _mapper.Map<BookCriterieas>(getAllBooksRequestDto);
-        var authors = await _unitOfWork.Books.GetBooksWithCriterias(criterias, cancellationToken);
+        var books = await _unitOfWork.Books.GetBooksWithCriterias(criterias, cancellationToken);
         var totalCount = await _unitOfWork.Books.GetCountAsync(cancellationToken);
 
         var booksResponse = new BooksResponseDto()
         {
             TotalCount = totalCount,
             TotalPages = GetPagesCount(getAllBooksRequestDto, totalCount),
-            Books = _mapper.Map<IEnumerable<BookResponseDto>>(authors)
+            Books = _mapper.Map<IEnumerable<BookResponseDto>>(books)
         };
 
         return booksResponse;

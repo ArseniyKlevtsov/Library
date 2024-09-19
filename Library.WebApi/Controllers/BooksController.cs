@@ -46,7 +46,7 @@ public class BooksController : ControllerBase
         return Ok(books);
     }
 
-    [HttpPost("EditInfo")]
+    [HttpGet("EditInfo")]
     [Authorize(Roles = "Admin,User")]
     public async Task<ActionResult<BookEditInfo>> GetEditInfo(CancellationToken cancellationToken)
     {

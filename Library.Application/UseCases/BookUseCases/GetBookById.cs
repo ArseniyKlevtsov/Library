@@ -30,7 +30,8 @@ public class GetBookById: IGetBookById
             IncludeRentedBooks = true,
         };
 
-        var book = await _unitOfWork.Books.GetWithIncludeByPredicateAsync(book => book.Id == id, includeState, cancellationToken);
+        var books = await _unitOfWork.Books.GetWithIncludeByPredicateAsync(book => book.Id == id, includeState, cancellationToken);
+        var book = books.FirstOrDefault();
         if (book == null)
         {
             throw new NotFoundException($"Book with ID {id} not found.");

@@ -2,6 +2,7 @@
 using Library.Application.DTOs.AuthorDtos.Response;
 using Library.Application.Exceptions;
 using Library.Application.Interfaces.UseCases.Authors;
+using Library.Domain.Entities;
 using Library.Domain.IncludeStates;
 using Library.Domain.Interfaces.Repositories;
 using Library.Infrastructure;
@@ -27,12 +28,14 @@ public class GetAuthorById : IGetAuthorById
             IncludeBooks = true
         };
 
-        var author = await _authorRepository.GetWithIncludeByPredicateAsync(author => author.Id == id, includeState, cancellationToken);
+        var authors = await _authorRepository.GetWithIncludeByPredicateAsync(author => author.Id == id, includeState, cancellationToken);
+        var author = authors.FirstOrDefault();
         if (author == null)
         {
             throw new NotFoundException($"Author with ID {id} not found.");
         }
-        var authorResponseDto = _mapper.Map<AuthorResponseDto>(author);
-        return authorResponseDto;
+        var authorResponseDto1 = _mapper.Map<AuthorResponseDto>(author);
+        Console.WriteLine(authorResponseDto1.Country);
+        return authorResponseDto1;
     }
 }

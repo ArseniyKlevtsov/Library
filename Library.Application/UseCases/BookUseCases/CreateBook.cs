@@ -57,7 +57,7 @@ public class CreateBook : ICreateBook
         
         Expression<Func<Genre, bool>> predicate = genre => ids.Contains(genre.Id);
         
-        var genres = await _unitOfWork.Genres.GetWithIncludeByPredicateAsync(predicate, includeState, cancellationToken);
+        var genres = await _unitOfWork.Genres.GetWithIncludeByPredicateAsync(predicate, includeState, cancellationToken, true);
         
         book.Genres = genres.ToList();
     }

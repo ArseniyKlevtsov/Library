@@ -9,5 +9,5 @@ public interface IBookRepository : IRepository<Book>
 {
     Task<IEnumerable<Book>> GetWithIncludeAsync(BookIncludeState includeState, CancellationToken cancellationToken);
     Task<IEnumerable<Book>> GetWithIncludeByPredicateAsync(Expression<Func<Book, bool>> predicate, BookIncludeState includeState, CancellationToken cancellationToken);
-    Task<IEnumerable<Book>> GetBooksWithCriterias(BookCriterieas bookCriterieas, CancellationToken cancellationToken);
+    Task<IEnumerable<Book>> GetBooksWithCriterias(BookCriterieas bookCriterieas, BookIncludeState includeState , CancellationToken cancellationToken);
 }

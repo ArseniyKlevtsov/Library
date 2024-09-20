@@ -21,10 +21,20 @@ public class GenreRepository : BaseRepository<Genre>, IGenreRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Genre>> GetWithIncludeByPredicateAsync(Expression<Func<Genre, bool>> predicate, GenreIncludeState includeState, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Genre>> GetWithIncludeByPredicateAsync(
+        Expression<Func<Genre, bool>> predicate,
+        GenreIncludeState includeState,
+        CancellationToken cancellationToken,
+        bool allowTracking = false)
     {
-        return await _dbSet
-            .AsNoTracking()
+        var query = _dbSet.AsQueryable();
+
+        if (allowTracking == false)
+        {
+            query = query.AsNoTracking();
+        }
+
+        return await query
             .Where(predicate)
             .IncludeWithState(includeState)
             .ToListAsync(cancellationToken);

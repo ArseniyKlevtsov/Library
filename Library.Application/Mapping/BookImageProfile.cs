@@ -9,7 +9,6 @@ public class BookImageProfile: Profile
     public BookImageProfile() 
     {
         CreateMap<BookRequestDto, BookImage>()
-            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
-            .ReverseMap();
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image != null ? Convert.FromBase64String(src.Image) : null));
     }
 }

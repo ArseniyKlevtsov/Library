@@ -4,5 +4,5 @@ public class BooksResponseDto
 {
     public int TotalCount { get; set; }
     public int TotalPages { get; set; }
-    public IEnumerable<BookResponseDto>? Books { get; set; }
+    public IEnumerable<BookPreviewResponseDto>? Books { get; set; }
 }

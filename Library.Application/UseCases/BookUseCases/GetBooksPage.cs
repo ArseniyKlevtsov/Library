@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Library.Application.DTOs.AuthorDtos.Request;
 using Library.Application.DTOs.BookDtos.Request;
 using Library.Application.DTOs.BookDtos.Response;
 using Library.Application.Interfaces.UseCases.BookUseCases;
+using Library.Domain.IncludeStates;
 using Library.Domain.SearchCriterias;
 using Library.Infrastructure;
 
@@ -21,14 +23,19 @@ public class GetBooksPage: IGetBooksPage
     public async Task<BooksResponseDto> ExecuteAsync(GetAllBooksRequestDto getAllBooksRequestDto, CancellationToken cancellationToken)
     {
         var criterias = _mapper.Map<BookCriterieas>(getAllBooksRequestDto);
-        var books = await _unitOfWork.Books.GetBooksWithCriterias(criterias, cancellationToken);
+        var includeState = new BookIncludeState()
+        {
+            IncludeBookImage = true,
+            IncludeInventory = true,
+        };
+        var books = await _unitOfWork.Books.GetBooksWithCriterias(criterias, includeState, cancellationToken);
         var totalCount = await _unitOfWork.Books.GetCountAsync(cancellationToken);
 
         var booksResponse = new BooksResponseDto()
         {
             TotalCount = totalCount,
             TotalPages = GetPagesCount(getAllBooksRequestDto, totalCount),
-            Books = _mapper.Map<IEnumerable<BookResponseDto>>(books)
+            Books = _mapper.Map<IEnumerable<BookPreviewResponseDto>>(books)
         };
 
         return booksResponse;
@@ -39,7 +46,7 @@ public class GetBooksPage: IGetBooksPage
         var hasValue = getAllBooksRequestDto.PageSize.HasValue;
         if (hasValue)
         {
-            return totalCount / (int)getAllBooksRequestDto.PageSize!;
+            return (int)Math.Ceiling((double)totalCount / (int)getAllBooksRequestDto.PageSize!);
         }
 
         return 0;

@@ -30,7 +30,7 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Book>> GetBooksWithCriterias(BookCriterieas bookCriterieas , CancellationToken cancellationToken)
+    public async Task<IEnumerable<Book>> GetBooksWithCriterias(BookCriterieas bookCriterieas, BookIncludeState includeState, CancellationToken cancellationToken)
     {
         IQueryable<Book> query = _dbSet;
 
@@ -82,6 +82,7 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
             var skip = (bookCriterieas.Page.Value - 1) * bookCriterieas.PageSize.Value;
             return await query
                 .AsNoTracking()
+                .IncludeWithState(includeState)
                 .Skip(skip)
                 .Take(bookCriterieas.PageSize.Value)
                 .ToListAsync(cancellationToken);
@@ -89,6 +90,7 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
 
         return await query
             .AsNoTracking()
+            .IncludeWithState(includeState)
             .ToListAsync(cancellationToken);
     }
 

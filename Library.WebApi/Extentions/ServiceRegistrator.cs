@@ -10,6 +10,7 @@ using Library.Application.Services;
 using Library.Application.UseCases.Auth;
 using Library.Application.UseCases.AuthorsUseCases;
 using Library.Application.UseCases.BooksUseCases;
+using Library.Application.UseCases.BookUseCases;
 using Library.Application.UseCases.GenresUseCases;
 using Library.Application.Validators.AuthValidators;
 using Library.Domain.Entities;
@@ -137,6 +138,7 @@ public static class ServiceRegistrator
         services.AddScoped<IGetBookById, GetBookById>();
         services.AddScoped<IGetBooksPage, GetBooksPage>();
         services.AddScoped<IGetBookEditInfo, GetBookEditInfo>();
+        services.AddScoped<IGetBookInfo, GetBookInfo>();
 
         services.AddScoped<ICreateGenre, CreateGenre>();
         services.AddScoped<IGetGenreById, GetGenreById>();

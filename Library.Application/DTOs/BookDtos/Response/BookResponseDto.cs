@@ -7,7 +7,9 @@ public class BookResponseDto
     public string? Name { get; set; }
     public string? Description { get; set; }
 
-    public Guid BookImageId { get; set; }
+    public string? Image { get; set; }
+    public int? AvailableCount { get; set; }
+    public int? TotalCount { get; set; }
 
     public Guid InventoryId { get; set; }
 

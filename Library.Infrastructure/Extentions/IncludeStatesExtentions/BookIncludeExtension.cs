@@ -24,6 +24,10 @@ public static class BookIncludeExtension
         {
             query = query.Include(book => book.BookImage);
         }
+        if (includeState.IncludeAuthors)
+        {
+            query = query.Include(book => book.Author);
+        }
         return query;
     }
 }

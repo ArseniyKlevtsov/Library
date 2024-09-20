@@ -8,4 +8,5 @@ public class BookIncludeState : IIncludeState
     public bool IncludeInventory { get; set; }
     public bool IncludeGenres { get; set; }
     public bool IncludeRentedBooks { get; set; }
+    public bool IncludeAuthors { get; set; }
 }

@@ -29,6 +29,8 @@ public class UpdateBook: IUpdateBook
         }
 
         await ReBindGenres(book, bookRequestDto.GenreIds, cancellationToken);
+        await UpdateInventoryForBook(book, bookRequestDto, cancellationToken);
+        await UpdateBookImage(book, bookRequestDto, cancellationToken);
 
         _mapper.Map(bookRequestDto, book);
         await _unitOfWork.Books.UpdateAsync(book, cancellationToken);
@@ -42,6 +44,7 @@ public class UpdateBook: IUpdateBook
     {
         var inventory = await _unitOfWork.LibraryInventorys.GetByIdAsync(book.InventoryId, cancellationToken);
         _mapper.Map(bookRequestDto, inventory);
+        await _unitOfWork.LibraryInventorys.UpdateAsync(inventory, cancellationToken);
     }
 
     private async Task ReBindGenres(Book book, ICollection<Guid>? genreIds, CancellationToken cancellationToken)
@@ -66,5 +69,6 @@ public class UpdateBook: IUpdateBook
     {
         var bookImage = await _unitOfWork.BookImages.GetByIdAsync(book.BookImageId, cancellationToken);
         _mapper.Map(bookRequestDto, bookImage);
+        await _unitOfWork.BookImages.UpdateAsync(bookImage!, cancellationToken);
     }
 }

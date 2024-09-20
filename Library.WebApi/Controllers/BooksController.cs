@@ -1,6 +1,5 @@
 ﻿using Library.Application.DTOs.BookDtos.Request;
 using Library.Application.DTOs.BookDtos.Response;
-using Library.Application.Interfaces.Services;
 using Library.Application.Interfaces.UseCases.BookUseCases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +16,16 @@ public class BooksController : ControllerBase
     private readonly IGetBookById _getBookById;
     private readonly IGetBooksPage _getBooksPage;
     private readonly IGetBookEditInfo _getBookEditInfo;
+    private readonly IGetBookInfo _getBookInfo;
 
-    public BooksController(ICreateBook createBook, IDeleteBook deleteBook, IUpdateBook updateBook, IGetBookById getBookById, IGetBooksPage getBooksPage, IGetBookEditInfo getBookEditInfo)
+    public BooksController(
+        ICreateBook createBook,
+        IDeleteBook deleteBook,
+        IUpdateBook updateBook,
+        IGetBookById getBookById,
+        IGetBooksPage getBooksPage,
+        IGetBookEditInfo getBookEditInfo,
+        IGetBookInfo getBookInfo)
     {
         _createBook = createBook;
         _deleteBook = deleteBook;
@@ -26,6 +33,7 @@ public class BooksController : ControllerBase
         _getBookById = getBookById;
         _getBooksPage = getBooksPage;
         _getBookEditInfo = getBookEditInfo;
+        _getBookInfo = getBookInfo;
     }
 
     [HttpGet("{id}")]
@@ -33,6 +41,14 @@ public class BooksController : ControllerBase
     public async Task<ActionResult<BookResponseDto>> GetBookById(Guid id, CancellationToken cancellationToken)
     {
         var book = await _getBookById.ExecuteAsync(id, cancellationToken);
+        return Ok(book);
+    }
+
+    [HttpGet("info{id}")]
+    [Authorize(Roles = "Admin,User")]
+    public async Task<ActionResult<BookInfoResponseDto>> GetBookInfo(Guid id, CancellationToken cancellationToken)
+    {
+        var book = await _getBookInfo.ExecuteAsync(id, cancellationToken);
         return Ok(book);
     }
 

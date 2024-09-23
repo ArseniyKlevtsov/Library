@@ -11,9 +11,21 @@
      сюда положить бекап C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup
      в SSMS тык пкм по любой базе -> Tasks -> Restore -> Database -> указать имя LibraryDb и выбрать источник device, найти бэк ап в папке, применить
      ![image](https://github.com/user-attachments/assets/311a5c65-cde7-4481-b9e9-45f98c55489d)
+
    Бэк ап тут можно взять:
    https://disk.yandex.ru/d/rPWg7ovlSBOrcw
-   также тут лежат картинки для "потыкать" на клиенте 
+   также тут лежат картинки для "потыкать" на клиенте
+   
+   Есть админ в бэкапе:
+   login Bob2
+   password Bob2Bob2Bob2
+
+   Если не через бэкап ставить базу, то нужно админа самому из кода выдать
+   готового метода, для этого нет, я делал так: просто на 1 запуск менял метод регистрации так
+   await _accountManager.AddToRoleAsync(user, "User");
+   на
+   await _accountManager.AddToRoleAsync(user, "Admin");
+   Менять тут Library.Application.UseCases.Auth.Register в  ExecuteAsync строка 42.
 
 
 13.08.2024 : 

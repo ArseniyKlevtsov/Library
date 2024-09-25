@@ -1,4 +1,4 @@
-﻿namespace Library.Application.DTOs.AuthDtos.Response;
+﻿namespace Library.Domain.Tokens;
 
 public class TokenResponse
 {

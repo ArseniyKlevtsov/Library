@@ -1,30 +1,29 @@
-﻿using Library.Application.DTOs.AuthDtos.Response;
-using Library.Application.Exceptions;
-using Library.Application.Interfaces.Services;
-using Library.Domain.Entities;
+﻿using Library.Domain.Entities;
 using Library.Domain.Interfaces.Repositories;
-using Library.Infrastructure;
+using Library.Domain.Interfaces.Services;
+using Library.Domain.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Library.Application.Services;
+namespace Library.Infrastructure.Authentication;
 
-public class TokenService : ITokenService
+public class JwtTokenService : IJwtTokenService
 {
     private readonly IConfiguration _configuration;
     private readonly IAccountManager _accountManager;
     private readonly string _loginProvider;
     private readonly string _refreshTokenName = "RefreshToken";
 
-    public TokenService(IConfiguration configuration, UnitOfWork unitOfWork)
+    public JwtTokenService(IConfiguration configuration, UnitOfWork unitOfWork)
     {
         _configuration = configuration;
         _accountManager = unitOfWork.AccountManager;
         _loginProvider = _configuration["App:Name"]!;
     }
+
 
     public async Task<TokenResponse> GenerateTokensAsync(User user)
     {
@@ -57,7 +56,7 @@ public class TokenService : ITokenService
         }
         catch (Exception)
         {
-            throw new ReadTokenException("Error retrieving user from token");
+            return null;
         }
     }
 

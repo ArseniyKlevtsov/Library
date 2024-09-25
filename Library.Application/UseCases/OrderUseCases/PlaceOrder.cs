@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using Library.Application.DTOs.AuthorDtos.Response;
 using Library.Application.DTOs.OrderDtos.Request;
 using Library.Application.DTOs.OrderDtos.Respose;
 using Library.Application.Exceptions;
-using Library.Application.Interfaces.Services;
 using Library.Application.Interfaces.UseCases.OrderUseCases;
 using Library.Domain.Entities;
+using Library.Domain.Interfaces.Services;
 using Library.Infrastructure;
 
 namespace Library.Application.UseCases.OrderUseCases;
@@ -14,9 +13,9 @@ public class PlaceOrder: IPlaceOrder
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    private readonly ITokenService _tokenService;
+    private readonly IJwtTokenService _tokenService;
 
-    public PlaceOrder(UnitOfWork unitOfWork, IMapper mapper, ITokenService tokenService)
+    public PlaceOrder(UnitOfWork unitOfWork, IMapper mapper, IJwtTokenService tokenService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -26,6 +25,10 @@ public class PlaceOrder: IPlaceOrder
     public async Task<OrderResponseDto> ExecuteAsync(PlaceOrderRequestDto placeOrderRequestDto, CancellationToken cancellationToken)
     {
         var user = await _tokenService.GetUserFromTokenAsync(placeOrderRequestDto.AccessToken!);
+        if (user == null)
+        {
+            throw new NotFoundException("the user transferred in the token was not found");
+        }
         var rentedBooks = _mapper.Map<ICollection<RentedBook>>(placeOrderRequestDto.RentedBooks);
         await CheckAvailableAsync(rentedBooks, cancellationToken);
         await SubtractCountsAsync(rentedBooks, cancellationToken);

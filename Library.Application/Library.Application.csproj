@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DTOs\AuthDtos\Response\" />
     <Folder Include="UseCases\UserUseCases\OrderActionsUseCases\" />
     <Folder Include="UseCases\UserUseCases\AccountActions\" />
     <Folder Include="UseCases\Новая папка\" />

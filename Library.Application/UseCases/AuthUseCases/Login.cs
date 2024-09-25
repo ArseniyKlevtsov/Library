@@ -1,8 +1,8 @@
 ﻿using Library.Application.DTOs.AuthDtos.Request;
-using Library.Application.DTOs.AuthDtos.Response;
-using Library.Application.Interfaces.Services;
 using Library.Application.Interfaces.UseCases.Auth;
 using Library.Domain.Interfaces.Repositories;
+using Library.Domain.Interfaces.Services;
+using Library.Domain.Tokens;
 using Library.Infrastructure;
 using System.Security.Authentication;
 
@@ -11,9 +11,9 @@ namespace Library.Application.UseCases.Auth;
 public class Login : ILoginUseCase
 {
     private readonly IAccountManager _accountManager;
-    private readonly ITokenService _tokenService;
+    private readonly IJwtTokenService _tokenService;
 
-    public Login(UnitOfWork unitOfWork, ITokenService tokenService)
+    public Login(UnitOfWork unitOfWork, IJwtTokenService tokenService)
     {
         _accountManager = unitOfWork.AccountManager;
         _tokenService = tokenService;

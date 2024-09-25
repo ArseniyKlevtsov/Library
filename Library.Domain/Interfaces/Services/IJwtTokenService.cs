@@ -1,9 +1,9 @@
-﻿using Library.Application.DTOs.AuthDtos.Response;
-using Library.Domain.Entities;
+﻿using Library.Domain.Entities;
+using Library.Domain.Tokens;
 
-namespace Library.Application.Interfaces.Services;
+namespace Library.Domain.Interfaces.Services;
 
-public interface ITokenService
+public interface IJwtTokenService
 {
     Task<TokenResponse> GenerateTokensAsync(User user);
     Task<User?> GetUserFromTokenAsync(string token);

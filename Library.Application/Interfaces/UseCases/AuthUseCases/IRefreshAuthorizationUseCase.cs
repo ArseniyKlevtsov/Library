@@ -1,5 +1,6 @@
 ﻿using Library.Application.DTOs.AuthDtos.Request;
-using Library.Application.DTOs.AuthDtos.Response;
+using Library.Domain.Tokens;
+
 
 namespace Library.Application.Interfaces.UseCases.Auth;
 

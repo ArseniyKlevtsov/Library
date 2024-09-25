@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using Library.Application.Interfaces.Services;
 using Library.Application.Interfaces.UseCases.Auth;
 using Library.Application.Interfaces.UseCases.Authors;
 using Library.Application.Interfaces.UseCases.BookUseCases;
@@ -8,7 +7,6 @@ using Library.Application.Interfaces.UseCases.GenreUseCases;
 using Library.Application.Interfaces.UseCases.OrderUseCases;
 using Library.Application.Interfaces.UseCases.ProfileUseCases;
 using Library.Application.Mapping;
-using Library.Application.Services;
 using Library.Application.UseCases.Auth;
 using Library.Application.UseCases.AuthorsUseCases;
 using Library.Application.UseCases.BooksUseCases;
@@ -18,7 +16,9 @@ using Library.Application.UseCases.OrderUseCases;
 using Library.Application.UseCases.ProfileUseCases;
 using Library.Application.Validators.AuthValidators;
 using Library.Domain.Entities;
+using Library.Domain.Interfaces.Services;
 using Library.Infrastructure;
+using Library.Infrastructure.Authentication;
 using Library.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -63,15 +63,13 @@ public static class ServiceRegistrator
             .AddDefaultTokenProviders();
 
         services.AddScoped<UnitOfWork>();
+        services.AddScoped<IJwtTokenService, JwtTokenService>();
+
 
         return services;
     }
     private static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
-        
-        services.AddScoped<ITokenService, TokenService>();
-        services.AddScoped<IUserService, UserService>();
-
         services.AddAutoMapper(typeof(UserProfile).Assembly);
 
         services.AddFluentValidationAutoValidation();
@@ -153,6 +151,7 @@ public static class ServiceRegistrator
 
         services.AddScoped<IPlaceOrder, PlaceOrder>();
         services.AddScoped<IGetUserOrders, GetUserOrders>();
+
         return services;
     }
 }

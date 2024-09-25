@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Library.Application.DTOs.RentedBookDtos.Request;
 using Library.Application.DTOs.RentedBookDtos.Response;
-using Library.Application.Interfaces.Services;
+using Library.Application.Exceptions;
 using Library.Application.Interfaces.UseCases.ProfileUseCases;
 using Library.Domain.Entities;
 using Library.Domain.IncludeStates;
+using Library.Domain.Interfaces.Services;
 using Library.Infrastructure;
 using System.Linq.Expressions;
 
@@ -14,27 +15,28 @@ public class GetUserOrders: IGetUserOrders
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    private readonly ITokenService _tokenService;
+    private readonly IJwtTokenService _tokenService;
 
-    public GetUserOrders(UnitOfWork unitOfWork, IMapper mapper, ITokenService tokenService)
+    public GetUserOrders(UnitOfWork unitOfWork, IMapper mapper, IJwtTokenService tokenService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _tokenService = tokenService;
-
-
     }
 
     public async Task<IEnumerable<RentedBookProfileResponseDto>> ExecuteAsync(GetUserOrdersRequestDto getUserOrdersDto, CancellationToken cancellationToken)
     {
         var user = await _tokenService.GetUserFromTokenAsync(getUserOrdersDto.AccessToken!);
-
+        if (user == null)
+        {
+            throw new NotFoundException("the user transferred in the token was not found");
+        }
         var includeState = new RentedBookIncludeState()
         {
             IncludeBook = true,
             IncludeRentOrder = true,
         };
-        Expression<Func<RentedBook,bool>> predicate = rentedBook => rentedBook!.RentOrder!.UserId == user!.Id;
+        Expression<Func<RentedBook,bool>> predicate = rentedBook => rentedBook!.RentOrder!.UserId == user.Id;
 
         var userRentedBooks = await _unitOfWork.RentedBooks.GetWithIncludeByPredicateAsync(predicate,includeState, cancellationToken);
 

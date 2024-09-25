@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Library.Application.DTOs.AuthDtos.Request;
-using Library.Application.DTOs.AuthDtos.Response;
 using Library.Application.Exceptions;
-using Library.Application.Interfaces.Services;
 using Library.Application.Interfaces.UseCases.Auth;
 using Library.Domain.Interfaces.Repositories;
+using Library.Domain.Interfaces.Services;
+using Library.Domain.Tokens;
 using Library.Infrastructure;
 
 namespace Library.Application.UseCases.Auth;
@@ -12,12 +12,12 @@ namespace Library.Application.UseCases.Auth;
 public class RefreshAuthorization : IRefreshAuthorizationUseCase
 {
     private readonly IAccountManager _accountManager;
-    private readonly ITokenService _tokenService;
+    private readonly IJwtTokenService _tokenService;
     private readonly IMapper _mapper;
     private readonly string _loginProvider = "LibraryApp";
     private readonly string refreshTokenName = "RefreshToken";
 
-    public RefreshAuthorization(UnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper)
+    public RefreshAuthorization(UnitOfWork unitOfWork, IJwtTokenService tokenService, IMapper mapper)
     {
         _accountManager = unitOfWork.AccountManager;
         _tokenService = tokenService;

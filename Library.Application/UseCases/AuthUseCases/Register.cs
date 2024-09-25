@@ -2,10 +2,10 @@
 using Library.Application.DTOs.AuthDtos.Request;
 using Library.Application.DTOs.UserDtos.Response;
 using Library.Application.Exceptions;
-using Library.Application.Interfaces.Services;
 using Library.Application.Interfaces.UseCases.Auth;
 using Library.Domain.Entities;
 using Library.Domain.Interfaces.Repositories;
+using Library.Domain.Interfaces.Services;
 using Library.Infrastructure;
 
 namespace Library.Application.UseCases.Auth;
@@ -13,10 +13,10 @@ namespace Library.Application.UseCases.Auth;
 public class Register: IRegisterUseCase
 {
     private readonly IAccountManager _accountManager;
-    private readonly ITokenService _tokenService;
+    private readonly IJwtTokenService _tokenService;
     private readonly IMapper _mapper;
 
-    public Register(UnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper)
+    public Register(UnitOfWork unitOfWork, IJwtTokenService tokenService, IMapper mapper)
     {
         _accountManager = unitOfWork.AccountManager;
         _tokenService = tokenService;

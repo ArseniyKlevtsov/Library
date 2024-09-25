@@ -5,6 +5,8 @@ using Library.Application.Interfaces.UseCases.Auth;
 using Library.Application.Interfaces.UseCases.Authors;
 using Library.Application.Interfaces.UseCases.BookUseCases;
 using Library.Application.Interfaces.UseCases.GenreUseCases;
+using Library.Application.Interfaces.UseCases.OrderUseCases;
+using Library.Application.Interfaces.UseCases.ProfileUseCases;
 using Library.Application.Mapping;
 using Library.Application.Services;
 using Library.Application.UseCases.Auth;
@@ -12,6 +14,8 @@ using Library.Application.UseCases.AuthorsUseCases;
 using Library.Application.UseCases.BooksUseCases;
 using Library.Application.UseCases.BookUseCases;
 using Library.Application.UseCases.GenresUseCases;
+using Library.Application.UseCases.OrderUseCases;
+using Library.Application.UseCases.ProfileUseCases;
 using Library.Application.Validators.AuthValidators;
 using Library.Domain.Entities;
 using Library.Infrastructure;
@@ -145,6 +149,10 @@ public static class ServiceRegistrator
         services.AddScoped<IDeleteGenre, DeleteGenre>();
         services.AddScoped<IUpdateGenre, UpdateGenre>();
         services.AddScoped<IGetGenresPage, GetGenresPage>();
+
+
+        services.AddScoped<IPlaceOrder, PlaceOrder>();
+        services.AddScoped<IGetUserOrders, GetUserOrders>();
         return services;
     }
 }

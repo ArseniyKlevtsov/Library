@@ -20,7 +20,11 @@ public class DeleteBook: IDeleteBook
         {
             throw new NotFoundException($"book with id {id} not found");
         }
+        var bookInventory = await _unitOfWork.LibraryInventorys.GetByIdAsync(book.InventoryId, cancellationToken);
+        var bookImage = await _unitOfWork.BookImages.GetByIdAsync(book.BookImageId, cancellationToken);
         await _unitOfWork.Books.DeleteAsync(book, cancellationToken);
+        await _unitOfWork.BookImages.DeleteAsync(bookImage!, cancellationToken);
+        await _unitOfWork.LibraryInventorys.DeleteAsync(bookInventory!, cancellationToken);
         await _unitOfWork.SaveAsync();
     }
 }

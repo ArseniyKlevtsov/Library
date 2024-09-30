@@ -121,7 +121,8 @@
 
 30.09.2024
 
- осталось одно замечание по тз - все еще нарушен dependency rule - application layer не должен ссылаться на infrastructure
+ - осталось одно замечание по тз - все еще нарушен dependency rule - application layer не должен ссылаться на infrastructure
+ 
  Удалил ссылку на проект Infrastructure и поправил всё, что к ней было привязано (Только UnitOfWork): 
  сделал interface IUnitOfWork и тыкнул его во всех UseCases(+JwtTokenService) вместо класса UnitOfWork.
  После потыкал проект.Всё работает

@@ -125,5 +125,6 @@
  Удалил ссылку на проект Infrastructure и поправил всё, что к ней было привязано (Только UnitOfWork): 
  сделал interface IUnitOfWork и тыкнул его во всех UseCases(+JwtTokenService) вместо класса UnitOfWork.
  После потыкал проект.Всё работает
+ 
 ![image](https://github.com/user-attachments/assets/c1e4ee60-cf44-4ce4-9dae-0de3d959a08c)
 

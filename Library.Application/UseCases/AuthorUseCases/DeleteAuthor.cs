@@ -1,25 +1,22 @@
 ﻿using Library.Application.Exceptions;
 using Library.Application.Interfaces.UseCases.Authors;
-using Library.Domain.Entities;
-using Library.Domain.Interfaces.Repositories;
-using Library.Infrastructure;
+using Library.Domain.Interfaces;
+
 
 namespace Library.Application.UseCases.AuthorsUseCases;
 
 public class DeleteAuthor : IDeleteAuthor
 {
-    private readonly UnitOfWork _unitOfWork;
-    private readonly IAuthorRepository _authorRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteAuthor(UnitOfWork unitOfWork)
+    public DeleteAuthor(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _authorRepository = unitOfWork.Authors;
     }
 
     public async Task ExecuteAsync(Guid id, CancellationToken cancellationToken)
     {
-        var author = await _authorRepository.GetByIdAsync(id, cancellationToken);
+        var author = await _unitOfWork.Authors.GetByIdAsync(id, cancellationToken);
         if (author == null)
         {
             throw new NotFoundException($"author with id {id} not found");

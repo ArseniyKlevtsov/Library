@@ -3,8 +3,8 @@ using Library.Application.DTOs.AuthorDtos.Request;
 using Library.Application.DTOs.AuthorDtos.Response;
 using Library.Application.Interfaces.UseCases.Authors;
 using Library.Domain.Entities;
+using Library.Domain.Interfaces;
 using Library.Domain.Interfaces.Repositories;
-using Library.Infrastructure;
 
 namespace Library.Application.UseCases.AuthorsUseCases;
 
@@ -12,9 +12,9 @@ public class CreateAuthor : ICreateAuthor
 {
     private readonly IAuthorRepository _authorRepository;
     private readonly IMapper _mapper;
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateAuthor(UnitOfWork unitOfWork, IMapper mapper)
+    public CreateAuthor(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _authorRepository = unitOfWork.Authors;

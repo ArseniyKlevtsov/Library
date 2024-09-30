@@ -5,19 +5,19 @@ using Library.Application.Exceptions;
 using Library.Application.Interfaces.UseCases.ProfileUseCases;
 using Library.Domain.Entities;
 using Library.Domain.IncludeStates;
+using Library.Domain.Interfaces;
 using Library.Domain.Interfaces.Services;
-using Library.Infrastructure;
 using System.Linq.Expressions;
 
 namespace Library.Application.UseCases.ProfileUseCases;
 
 public class GetUserOrders: IGetUserOrders
 {
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IJwtTokenService _tokenService;
 
-    public GetUserOrders(UnitOfWork unitOfWork, IMapper mapper, IJwtTokenService tokenService)
+    public GetUserOrders(IUnitOfWork unitOfWork, IMapper mapper, IJwtTokenService tokenService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;

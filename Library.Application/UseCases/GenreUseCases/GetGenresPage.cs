@@ -1,19 +1,18 @@
 ﻿using AutoMapper;
-using Library.Application.DTOs.BookDtos.Response;
 using Library.Application.DTOs.GenreDtos.Request;
 using Library.Application.DTOs.GenreDtos.Response;
 using Library.Application.Interfaces.UseCases.GenreUseCases;
+using Library.Domain.Interfaces;
 using Library.Domain.SearchCriterias;
-using Library.Infrastructure;
 
 namespace Library.Application.UseCases.GenresUseCases;
 
 public class GetGenresPage: IGetGenresPage
 {
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public GetGenresPage(UnitOfWork unitOfWork, IMapper mapper)
+    public GetGenresPage(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;

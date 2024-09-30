@@ -3,16 +3,16 @@ using Library.Application.DTOs.AuthorDtos.Response;
 using Library.Application.DTOs.BookDtos.Response;
 using Library.Application.DTOs.GenreDtos.Response;
 using Library.Application.Interfaces.UseCases.BookUseCases;
-using Library.Infrastructure;
+using Library.Domain.Interfaces;
 
 namespace Library.Application.UseCases.BooksUseCases;
 
 public class GetBookEditInfo : IGetBookEditInfo
 {
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public GetBookEditInfo(UnitOfWork unitOfWork, IMapper mapper)
+    public GetBookEditInfo(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;

@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using Library.Application.Exceptions;
 using Library.Application.Interfaces.UseCases.GenreUseCases;
-using Library.Infrastructure;
+using Library.Domain.Interfaces;
 
 namespace Library.Application.UseCases.GenresUseCases;
 
 public class DeleteGenre : IDeleteGenre
 {
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public DeleteGenre(UnitOfWork unitOfWork, IMapper mapper)
+    public DeleteGenre(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;

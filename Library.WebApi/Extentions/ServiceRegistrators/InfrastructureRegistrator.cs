@@ -5,6 +5,7 @@ using Library.Infrastructure.Data;
 using Library.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Library.Domain.Interfaces;
 
 namespace Library.WebApi.Extentions.ServiceRegistrators;
 
@@ -28,7 +29,7 @@ public static class InfrastructureRegistrator
             .AddEntityFrameworkStores<LibraryDbContext>()
             .AddDefaultTokenProviders();
 
-        services.AddScoped<UnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 

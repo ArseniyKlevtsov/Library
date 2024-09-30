@@ -4,17 +4,17 @@ using Library.Application.DTOs.BookDtos.Response;
 using Library.Application.Interfaces.UseCases.BookUseCases;
 using Library.Domain.Entities;
 using Library.Domain.IncludeStates;
-using Library.Infrastructure;
+using Library.Domain.Interfaces;
 using System.Linq.Expressions;
 
 namespace Library.Application.UseCases.BooksUseCases;
 
 public class CreateBook : ICreateBook
 {
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public CreateBook (UnitOfWork unitOfWork, IMapper mapper)
+    public CreateBook (IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;

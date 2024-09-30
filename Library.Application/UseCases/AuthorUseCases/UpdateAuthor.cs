@@ -2,35 +2,31 @@
 using Library.Application.DTOs.AuthorDtos.Request;
 using Library.Application.DTOs.AuthorDtos.Response;
 using Library.Application.Interfaces.UseCases.Authors;
-using Library.Domain.Entities;
-using Library.Domain.Interfaces.Repositories;
-using Library.Infrastructure;
+using Library.Domain.Interfaces;
 
 namespace Library.Application.UseCases.AuthorsUseCases;
 
 public class UpdateAuthor: IUpdateAuthor
 {
-    private readonly IAuthorRepository _authorRepository;
     private readonly IMapper _mapper;
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateAuthor(UnitOfWork unitOfWork, IMapper mapper)
+    public UpdateAuthor(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
-        _authorRepository = unitOfWork.Authors;
         _mapper = mapper;
     }
 
     public async Task<AuthorResponseDto> ExecuteAsync(Guid authorId, AuthorRequestDto authorRequestDto, CancellationToken cancellationToken)
     {
-        var author = await _authorRepository.GetByIdAsync(authorId, cancellationToken);
+        var author = await _unitOfWork.Authors.GetByIdAsync(authorId, cancellationToken);
         if (author == null)
         {
             throw new KeyNotFoundException($"Author with ID {authorId} not found.");
         }
 
         _mapper.Map(authorRequestDto, author);
-        await _authorRepository.UpdateAsync(author, cancellationToken);
+        await _unitOfWork.Authors.UpdateAsync(author, cancellationToken);
         await _unitOfWork.SaveAsync();
         var updatedAuthor = _mapper.Map<AuthorResponseDto>(author);
         return updatedAuthor;

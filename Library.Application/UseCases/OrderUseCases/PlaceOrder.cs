@@ -4,18 +4,18 @@ using Library.Application.DTOs.OrderDtos.Respose;
 using Library.Application.Exceptions;
 using Library.Application.Interfaces.UseCases.OrderUseCases;
 using Library.Domain.Entities;
+using Library.Domain.Interfaces;
 using Library.Domain.Interfaces.Services;
-using Library.Infrastructure;
 
 namespace Library.Application.UseCases.OrderUseCases;
 
 public class PlaceOrder: IPlaceOrder
 {
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IJwtTokenService _tokenService;
 
-    public PlaceOrder(UnitOfWork unitOfWork, IMapper mapper, IJwtTokenService tokenService)
+    public PlaceOrder(IUnitOfWork unitOfWork, IMapper mapper, IJwtTokenService tokenService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;

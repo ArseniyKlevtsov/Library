@@ -1,4 +1,5 @@
 ﻿using Library.Domain.Entities;
+using Library.Domain.Interfaces;
 using Library.Domain.Interfaces.Repositories;
 using Library.Infrastructure.Data;
 using Library.Infrastructure.Repositories;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Library.Infrastructure;
 
-public class UnitOfWork : IDisposable
+public class UnitOfWork : IUnitOfWork
 {
     private bool disposed = false;
 

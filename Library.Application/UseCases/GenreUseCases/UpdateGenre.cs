@@ -2,16 +2,16 @@
 using Library.Application.DTOs.GenreDtos.Request;
 using Library.Application.DTOs.GenreDtos.Response;
 using Library.Application.Interfaces.UseCases.GenreUseCases;
-using Library.Infrastructure;
+using Library.Domain.Interfaces;
 
 namespace Library.Application.UseCases.GenresUseCases;
 
 public class UpdateGenre : IUpdateGenre
 {
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public UpdateGenre(UnitOfWork unitOfWork, IMapper mapper)
+    public UpdateGenre(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;

@@ -1,20 +1,19 @@
 ﻿using AutoMapper;
-using Library.Application.DTOs.AuthorDtos.Request;
 using Library.Application.DTOs.BookDtos.Request;
 using Library.Application.DTOs.BookDtos.Response;
 using Library.Application.Interfaces.UseCases.BookUseCases;
 using Library.Domain.IncludeStates;
+using Library.Domain.Interfaces;
 using Library.Domain.SearchCriterias;
-using Library.Infrastructure;
 
 namespace Library.Application.UseCases.BooksUseCases;
 
 public class GetBooksPage: IGetBooksPage
 {
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public GetBooksPage(UnitOfWork unitOfWork, IMapper mapper)
+    public GetBooksPage(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;

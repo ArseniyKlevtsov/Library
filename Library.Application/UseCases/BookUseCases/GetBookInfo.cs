@@ -5,16 +5,16 @@ using Library.Application.DTOs.GenreDtos.Response;
 using Library.Application.Exceptions;
 using Library.Application.Interfaces.UseCases.BookUseCases;
 using Library.Domain.IncludeStates;
-using Library.Infrastructure;
+using Library.Domain.Interfaces;
 
 namespace Library.Application.UseCases.BookUseCases;
 
 public class GetBookInfo: IGetBookInfo
 {
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public GetBookInfo(UnitOfWork unitOfWork, IMapper mapper)
+    public GetBookInfo(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;

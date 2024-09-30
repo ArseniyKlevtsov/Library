@@ -1,14 +1,14 @@
 ﻿using Library.Application.Exceptions;
 using Library.Application.Interfaces.UseCases.BookUseCases;
-using Library.Infrastructure;
+using Library.Domain.Interfaces;
 
 namespace Library.Application.UseCases.BooksUseCases;
 
 public class DeleteBook: IDeleteBook
 {
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteBook(UnitOfWork unitOfWork)
+    public DeleteBook(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }

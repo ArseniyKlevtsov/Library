@@ -1,4 +1,5 @@
 ﻿using Library.Domain.Entities;
+using Library.Domain.Interfaces;
 using Library.Domain.Interfaces.Repositories;
 using Library.Domain.Interfaces.Services;
 using Library.Domain.Tokens;
@@ -13,14 +14,14 @@ namespace Library.Infrastructure.Authentication;
 public class JwtTokenService : IJwtTokenService
 {
     private readonly IConfiguration _configuration;
-    private readonly IAccountManager _accountManager;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly string _loginProvider;
     private readonly string _refreshTokenName = "RefreshToken";
 
-    public JwtTokenService(IConfiguration configuration, UnitOfWork unitOfWork)
+    public JwtTokenService(IConfiguration configuration, IUnitOfWork unitOfWork)
     {
         _configuration = configuration;
-        _accountManager = unitOfWork.AccountManager;
+        _unitOfWork = unitOfWork;
         _loginProvider = _configuration["App:Name"]!;
     }
 
@@ -31,7 +32,7 @@ public class JwtTokenService : IJwtTokenService
 
         var accessToken = GenerateAccessToken(authClaims);
         var refreshToken = GenerateRefreshToken();
-        var isAdmin = await _accountManager.IsInRoleAsync(user, "Admin");
+        var isAdmin = await _unitOfWork.AccountManager.IsInRoleAsync(user, "Admin");
         return new TokenResponse
         {
             AccessToken = accessToken,
@@ -51,7 +52,7 @@ public class JwtTokenService : IJwtTokenService
             if (string.IsNullOrEmpty(username))
                 return null;
 
-            var user = await _accountManager.FindByNameAsync(username);
+            var user = await _unitOfWork.AccountManager.FindByNameAsync(username);
             return user;
         }
         catch (Exception)
@@ -88,7 +89,7 @@ public class JwtTokenService : IJwtTokenService
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
-        var userRoles = await _accountManager.GetRolesAsync(user);
+        var userRoles = await _unitOfWork.AccountManager.GetRolesAsync(user);
         foreach (var userRole in userRoles)
         {
             authClaims.Add(new Claim(ClaimTypes.Role, userRole));
@@ -99,7 +100,7 @@ public class JwtTokenService : IJwtTokenService
 
     public async Task SetRefreshTokenAsync(User user, string refreshToken)
     {
-        await _accountManager.RemoveAuthenticationTokenAsync(user, _loginProvider, _refreshTokenName);
-        await _accountManager.SetAuthenticationTokenAsync(user, _loginProvider, _refreshTokenName, refreshToken);
+        await _unitOfWork.AccountManager.RemoveAuthenticationTokenAsync(user, _loginProvider, _refreshTokenName);
+        await _unitOfWork.AccountManager.SetAuthenticationTokenAsync(user, _loginProvider, _refreshTokenName, refreshToken);
     }
 }

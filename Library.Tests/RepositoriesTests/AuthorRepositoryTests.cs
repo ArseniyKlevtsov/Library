@@ -19,6 +19,8 @@ public class AuthorRepositoryTests
             // Act - Create
             var newAuthor = new Author { Name = "John", Surname = "Doe", BirthDate = new DateOnly(1980, 1, 1), Country = "USA" };
             await authorRepository.AddAsync(newAuthor, CancellationToken.None);
+            // вместо UnitOfWork.SaveAsync(), потому что не понял как создать для User/Role Manager User/Role Store
+            context.SaveChanges();
             context.Entry(newAuthor).State = EntityState.Detached;
 
             // Assert - Create
@@ -37,6 +39,7 @@ public class AuthorRepositoryTests
             // Act - Update
             createdAuthor.Name = "Jane";
             await authorRepository.UpdateAsync(createdAuthor, CancellationToken.None);
+            context.SaveChanges();
 
             // Assert - Update
             var updatedAuthor = await authorRepository.GetByPredicateAsync(a => a.Id == createdAuthor.Id, CancellationToken.None);
